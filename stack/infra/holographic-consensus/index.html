@@ -48,7 +48,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../daostack/">Home</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
                     </li>
                 </ul>
                 <ul>
@@ -180,7 +180,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="genesis-protocol">Genesis Protocol<a class="headerlink" href="#genesis-protocol" title="Permanent link">&para;</a></h1>
+                <h1 id="genesis-protocol">Genesis Protocol</h1>
 <p>Genesis Protocol is an organization's voting machine implemented by DAOstack team. It leverages the <strong>Holographic Consensus</strong> mechanism for scaling the decentralized governance system.</p>
 <p>You can find details on design principals and high level overview here</p>
 <p>In this article we will go through some technical details of Genesis Protocol</p>
@@ -199,10 +199,10 @@
 <li><strong>Voters reputation loss ratio</strong>: The percentage of a voter’s voting power they stand to lose if they vote against the DAO’s eventual decision on a non-boosted proposal.</li>
 </ul>
 <p>For more details and story around each param refer <a href="https://daostack.zendesk.com/hc/en-us/articles/360002000537-Genesis-Protocol-v0-2-Parameters-Explained">this article</a></p>
-<h2 id="what-is-staking">What is Staking?<a class="headerlink" href="#what-is-staking" title="Permanent link">&para;</a></h2>
+<h2 id="what-is-staking">What is Staking?</h2>
 <p>For a proposal to pass with a relative majority, it must have sufficient stake in favor of the proposal.</p>
 <p>You can use your <strong>GEN</strong> tokens to stake in favor of or against the proposal. Once the stakes in favor of the proposal reaches the bar it is ready to be boosted.</p>
-<h2 id="how-does-proposal-state-changes-after-staking">How does proposal state changes after staking?<a class="headerlink" href="#how-does-proposal-state-changes-after-staking" title="Permanent link">&para;</a></h2>
+<h2 id="how-does-proposal-state-changes-after-staking">How does proposal state changes after staking?</h2>
 <p>An open proposal (i.e. with pending decision) can be in one of the following stages:</p>
 <ul>
 <li>
@@ -223,7 +223,7 @@
 </li>
 </ul>
 <p>The proposal's outcome must not change for the <code>quietEndingPeriod</code> amount of time for the decision to be made. Else the voting on proposal keeps getting increased by the <code>quietEndingPeriod</code> amount of time until the above condition is true.</p>
-<h2 id="staking-rewards">Staking Rewards<a class="headerlink" href="#staking-rewards" title="Permanent link">&para;</a></h2>
+<h2 id="staking-rewards">Staking Rewards</h2>
 <p>Following are the possible outcomes of a proposal:</p>
 <ul>
 <li>
@@ -237,7 +237,7 @@
 <p>The proposal fails: Loosing stake is lost</p>
 </li>
 </ul>
-<h2 id="caveats">Caveats<a class="headerlink" href="#caveats" title="Permanent link">&para;</a></h2>
+<h2 id="caveats">Caveats</h2>
 <ul>
 <li>
 <p>For a given proposal one can stake multiple times from the same address. In such a case all the subsequent stakes must in align with previous stake's vote i.e. if staked in favor of the proposal earlier you must stake in favor of the proposal in subsequent stakes</p>

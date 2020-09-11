@@ -48,7 +48,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../daostack/">Home</a>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
                     </li>
                 </ul>
                 <ul class="current">
@@ -168,61 +168,69 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="arc-20">Arc 2.0<a class="headerlink" href="#arc-20" title="Permanent link">&para;</a></h1>
+                <h1 id="arc-20">Arc 2.0</h1>
 <blockquote>
 <p>What's new on the latest version of DAOstack architecture?</p>
 </blockquote>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<h2 id="overview">Overview</h2>
 <ul>
 <li>Arc 2.0 significantly eases DAO deployment, plugin management, and general gas costs, all this while increasing security.</li>
 <li>Its main objectives is to improve security, flexibility, user experience, and developer accessibility.</li>
 </ul>
-<h2 id="the-changes">The changes<a class="headerlink" href="#the-changes" title="Permanent link">&para;</a></h2>
+<h2 id="the-changes">The changes</h2>
 <ol>
-<li><strong>None universal plugins</strong>  </li>
+<li><strong>None universal plugins</strong><ul>
 <li>All plugins are none universal which means a separate plugin instance per DAO. </li>
-<li>
-<p>This reduces complexity at the contract level and increases security.</p>
+<li>This reduces complexity at the contract level and increases security.</li>
+</ul>
 </li>
-<li>
-<p><strong>All contracts are proxy upgradable contracts.</strong></p>
-</li>
+<li><strong>All contracts are proxy upgradable contracts.</strong><ul>
 <li>Enable upgrades to DAO contracts implementations while maintaining addresses and storage.</li>
 <li>The DAO serves as the proxy admin of its own contracts.</li>
-<li>
-<p>This increases security, UX, and enables upgradability.</p>
+<li>This increases security, UX, and enables upgradability.</li>
+</ul>
 </li>
-<li>
-<p><strong>Arc.Hive</strong>  </p>
-</li>
+<li><strong>Arc.Hive</strong>  <ul>
 <li>ArcHive is an on-chain repository of all approved (Registered) DAOstack contract implementations.  </li>
 <li>Contract/DAOs which have been registered / verified in the ArcHive will be automatically indexed and show up in Alchemy (higher layers of the stack)</li>
 <li>Plugins which would like to be added to the ArcHive need to be approved and verified by DAOstack. We aspire to have this managed by the community in the future.</li>
 <li>The ArcHive architecture increases security via a tool that validates contracts and implementation in a trust-minimized way.</li>
-<li>DAOFactory</li>
+</ul>
+</li>
+<li><strong>DAOFactory</strong><ul>
 <li>DAO deployment in a seamless process, in a single transacation</li>
 <li>DAO deployment cost is reduced by a factor of 10.</li>
 <li>Use ArcHive contracts to create a DAO</li>
 <li>DAO Factory DAOs will be indexed and will be shown in alchemy.</li>
 <li>DAO creation is made fast, Cheap and with far better UX.</li>
-<li>PluginFactory</li>
+</ul>
+</li>
+<li><strong>PluginFactory</strong><ul>
 <li>Simplified process of the “Plugin Manager” in updating / adding of plugins to the DAO.</li>
 <li>Plugin parameters are passed via the plugin add proposal.</li>
 <li>A new Plugin instance is created and deployed upon execution.</li>
 <li>GenesisProtocol parameters are set upon plugin Init, no need to pre-deploy governance parameters</li>
 <li>Easy and friendly UX</li>
-<li>Tx Cost</li>
+</ul>
+</li>
+<li><strong>Tx Cost</strong><ul>
 <li>Optimization was done to genesis protocol and plugins structure to reduce gas required for proposing/voting/staking.</li>
-<li>Subgraph auto indexing</li>
+</ul>
+</li>
+<li><strong>Subgraph auto indexing</strong><ul>
 <li>All Arc.Hive plugins/DAOs are automatically indexed by subgraph (no need to manually index).</li>
-<li>Misc</li>
+</ul>
+</li>
+<li><strong>Misc</strong><ul>
 <li>NFT management plugin - send/mint/list</li>
 <li>Arc.react - enable easy custom react ui components on top of subgraph and arc.js</li>
-<li>JoinAndQuit and funding request</li>
+<li>JoinAndQuit and Funding Request</li>
 <li>Token Trade - Send and receive tokens from/to the organization.</li>
 <li>Key value on chain database</li>
 <li>Etherscan/blockscout contract verification upon DAO deployment.</li>
 <li>Full xDAI support with ERC20 token contract bridge.</li>
+</ul>
+</li>
 </ol>
               
             </div>
@@ -234,7 +242,7 @@
         <a href="../stack/infra/intro/" class="btn btn-neutral float-right" title="Intro">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../daostack/" class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -260,7 +268,7 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../daostack/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../stack/infra/intro/" style="color: #fcfcfc">Next &raquo;</a></span>
