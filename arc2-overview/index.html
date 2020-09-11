@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Arc 2.0 - DAOstack Developer Portal</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Arc 2.0";
+    var mkdocs_page_input_path = "arc2-overview.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> DAOstack Developer Portal</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../daostack/">Home</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Arc 2.0</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#the-changes">The changes</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Stack</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Infra</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/infra/intro/">Intro</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/infra/holographic-consensus/">Holographic Consensus</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../stack/arc/">Arc</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Subgraph</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/subgraph/intro/">Intro</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/subgraph/queries/">GraphQL queries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/subgraph/entities/">Entities</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Arc.js</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/arcjs/intro/">Intro</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/arcjs/intro/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/arcjs/intro/">How To Use</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/arcjs/intro/">Query, Observables & Subscriptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../stack/arcjs/intro/">Quick Example</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../stack/alchemy/">Alchemy</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Plugins</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../plugins/nft-manager/">NFT Manager</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../plugins/funding-request/">Funding Request</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../plugins/token-trade/">Token Trade</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Tutorials</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/test-environment/">Test environment</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/create-a-dao/">Create your own DAO</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/arc-react/">Arc.react</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Register a generic plugin</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../tutorials/register-a-plugin/intro/">Intro</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tutorials/register-a-plugin/arc/">Arc</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tutorials/register-a-plugin/migration/">Migration</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tutorials/register-a-plugin/test-environment/">Test environment</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tutorials/register-a-plugin/arcjs/">Arc.js</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tutorials/register-a-plugin/alchemy/">Alchemy</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">DAOstack Developer Portal</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Arc 2.0</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/daostack/DAOstack-Hackers-Kit/edit/master/docs/arc2-overview.md"> Edit on daostack/DAOstack-Hackers-Kit</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="arc-20">Arc 2.0<a class="headerlink" href="#arc-20" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>What's new on the latest version of DAOstack architecture?</p>
+</blockquote>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Arc 2.0 significantly eases DAO deployment, plugin management, and general gas costs, all this while increasing security.</li>
+<li>Its main objectives is to improve security, flexibility, user experience, and developer accessibility.</li>
+</ul>
+<h2 id="the-changes">The changes<a class="headerlink" href="#the-changes" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>None universal plugins</strong>  </li>
+<li>All plugins are none universal which means a separate plugin instance per DAO. </li>
+<li>
+<p>This reduces complexity at the contract level and increases security.</p>
+</li>
+<li>
+<p><strong>All contracts are proxy upgradable contracts.</strong></p>
+</li>
+<li>Enable upgrades to DAO contracts implementations while maintaining addresses and storage.</li>
+<li>The DAO serves as the proxy admin of its own contracts.</li>
+<li>
+<p>This increases security, UX, and enables upgradability.</p>
+</li>
+<li>
+<p><strong>Arc.Hive</strong>  </p>
+</li>
+<li>ArcHive is an on-chain repository of all approved (Registered) DAOstack contract implementations.  </li>
+<li>Contract/DAOs which have been registered / verified in the ArcHive will be automatically indexed and show up in Alchemy (higher layers of the stack)</li>
+<li>Plugins which would like to be added to the ArcHive need to be approved and verified by DAOstack. We aspire to have this managed by the community in the future.</li>
+<li>The ArcHive architecture increases security via a tool that validates contracts and implementation in a trust-minimized way.</li>
+<li>DAOFactory</li>
+<li>DAO deployment in a seamless process, in a single transacation</li>
+<li>DAO deployment cost is reduced by a factor of 10.</li>
+<li>Use ArcHive contracts to create a DAO</li>
+<li>DAO Factory DAOs will be indexed and will be shown in alchemy.</li>
+<li>DAO creation is made fast, Cheap and with far better UX.</li>
+<li>PluginFactory</li>
+<li>Simplified process of the “Plugin Manager” in updating / adding of plugins to the DAO.</li>
+<li>Plugin parameters are passed via the plugin add proposal.</li>
+<li>A new Plugin instance is created and deployed upon execution.</li>
+<li>GenesisProtocol parameters are set upon plugin Init, no need to pre-deploy governance parameters</li>
+<li>Easy and friendly UX</li>
+<li>Tx Cost</li>
+<li>Optimization was done to genesis protocol and plugins structure to reduce gas required for proposing/voting/staking.</li>
+<li>Subgraph auto indexing</li>
+<li>All Arc.Hive plugins/DAOs are automatically indexed by subgraph (no need to manually index).</li>
+<li>Misc</li>
+<li>NFT management plugin - send/mint/list</li>
+<li>Arc.react - enable easy custom react ui components on top of subgraph and arc.js</li>
+<li>JoinAndQuit and funding request</li>
+<li>Token Trade - Send and receive tokens from/to the organization.</li>
+<li>Key value on chain database</li>
+<li>Etherscan/blockscout contract verification upon DAO deployment.</li>
+<li>Full xDAI support with ERC20 token contract bridge.</li>
+</ol>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../stack/infra/intro/" class="btn btn-neutral float-right" title="Intro">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../daostack/" class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../daostack/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../stack/infra/intro/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
