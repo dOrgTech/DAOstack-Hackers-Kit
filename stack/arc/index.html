@@ -66,6 +66,8 @@
     </ul>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Arc</a>
+    <ul class="current">
+    </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="#">Subgraph</a>
     <ul>
@@ -166,7 +168,33 @@
           <div role="main">
             <div class="section">
               
-                
+                <h1 id="arc">Arc</h1>
+<p>Arc is a solidity smart contract library for building DAOs, uses Infra to provide decentralized organizations with voting machines and voting rights management systems. Is the base layer of the DAO stack. It defines the basic building blocks and standard components that can be used to implement any DAO.</p>
+<p>DAOs built with Arc have a few basic contract components:</p>
+<ul>
+<li><strong>Avatar</strong>: The DAO's "account". This contract represents the address of the DAO and holds its assets.</li>
+<li><strong>Reputation</strong>: Voting in Arc is done mainly using Reputation. Reputation can be distributed and redistributed only by DAO decision, and it is generally given (via vote) to an agent according to their performance and contribution to a DAO.</li>
+<li><strong>Token</strong>: Each DAO have its own token, which can be used in any way the DAO would like.</li>
+<li><strong>Controller</strong>: Is the "Access Control" of the DAO, managing who can interact with which DAO functions and enforcing the DAO's constraints.</li>
+<li><strong>Plugins</strong>: Are a DAO's "actions". Anything a DAO should act upon needs to be written and authorized by the controller as a plugin. Plugins might be used to help a DAO: propose and make investments, give reputation to agents, upgrade the DAO's contracts, register new plugins and constraints, etc.</li>
+<li><strong>Global Constraints</strong>: Are limitations on a DAO's actions. When executing a plugin, the controller checks the constraints to see if the action violates them, and blocks the execution if it does. Some examples for constraints might be: the token supply can't be increased over 1M tokens, the organization won't use more than 60% of its funds at once, etc.</li>
+</ul>
+<p>It has been built from the ground up with these principles in mind:</p>
+<ol>
+<li>
+<p><strong>Scalable Decentralized Governance</strong> - Implements game theory &amp; economic techniques (such as: monetization of attention, staking on proposal results, and more) that, even as the number of the participants gets very large, ensures high:</p>
+<ul>
+<li><strong>Resilience</strong> - resistance to a disproportionate decision power in the hands of minorities.</li>
+<li><strong>Bandwidth</strong> - decision making rate of the organization.</li>
+</ul>
+</li>
+<li>
+<p><strong>Security</strong> - Is community audited and embodies the best security guidelines and is very well tested.</p>
+</li>
+<li><strong>Interoperability &amp; Compositionality</strong> - Can integrate with any other ethereum based framework with ease. Organizations can interact with each other and form hierarchies and other complex structures.</li>
+<li><strong>Modularity</strong> - Is built in a modular way allowing anyone to extend and expand the ecosystem to support new use-cases.</li>
+<li><strong>General purpose</strong> - Provides a single unified simple model for building any DAO imaginable.</li>
+</ol>
               
             </div>
           </div>

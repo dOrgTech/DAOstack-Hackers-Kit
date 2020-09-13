@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>Developing - DAOstack Developer Portal</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Developing";
+    var mkdocs_page_input_path = "stack/arcjs/development.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> DAOstack Developer Portal</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../arc2-overview/">Arc 2.0</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Stack</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Infra</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../infra/intro/">Intro</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../infra/holographic-consensus/">Holographic Consensus</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../arc/">Arc</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Subgraph</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../subgraph/intro/">Intro</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../subgraph/queries/">GraphQL queries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../subgraph/entities/">Entities</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Arc.js</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../intro/">Intro</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../intro/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../intro/">How To Use</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../intro/">Query, Observables & Subscriptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../intro/">Quick Example</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../alchemy/">Alchemy</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Plugins</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../plugins/nft-manager/">NFT Manager</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../plugins/funding-request/">Funding Request</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../plugins/token-trade/">Token Trade</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Tutorials</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/test-environment/">Test environment</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/create-a-dao/">Create your own DAO</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/arc-react/">Arc.react</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Register a generic plugin</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/intro/">Intro</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/arc/">Arc</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/migration/">Migration</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/test-environment/">Test environment</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/arcjs/">Arc.js</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/alchemy/">Alchemy</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">DAOstack Developer Portal</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Developing</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/dOrgTech/DAOstack-Hackers-Kit/edit/master/docs/stack/arcjs/development.md"> Edit on dOrgTech/DAOstack-Hackers-Kit</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="developing">Developing</h1>
+<p>For development, it is useful to have local instances of Ganache (an ethereum node), IPFS (which is used to store data), an instance of The Graph with the DAOStack subgraph.
+The package is provided with convenient docker containers that provide  a  complete environment for testing and development:</p>
+<p>Get all services running:</p>
+<pre><code class="sh">docker-compose up
+</code></pre>
+
+<p>This command will build and start a graph instance, ganache, IPFS and postgresql.</p>
+<p>To run the tests, run:</p>
+<pre><code>npm run test
+</code></pre>
+
+<p>You may also want to run the (demo.js)[./documentation/demo.js] file for some concrete examples of the usage of the library:</p>
+<pre><code>node documentation/demo.js
+</code></pre>
+
+<p>After you are done, run:</p>
+<pre><code>docker-compose down
+</code></pre>
+
+<h2 id="adding-an-entity">Adding an Entity</h2>
+<p>The <code>Event</code> entity will be used as example in this section. To add an entity to the library, you must:</p>
+<ol>
+<li>Create an interface that defines the entity state.</li>
+</ol>
+<pre><code class="ts">export interface IEventState {
+  id: string
+  dao: string
+  proposal: string
+  user: string
+  type: string
+  data: { [key: string]: any }
+  timestamp: string
+}
+</code></pre>
+
+<ol>
+<li>Create an interface that defines the possible options to query the entity. This interface must extend the <code>ICommonQueryOptions</code> interface.</li>
+</ol>
+<pre><code class="ts">export interface IEventQueryOptions extends ICommonQueryOptions {
+  where?: {
+    id?: string;
+    dao?: Address;
+    proposal?: string;
+    user?: Address;
+    [key: string]: any;
+  }
+}
+</code></pre>
+
+<ol>
+<li>
+<p>Create the entity class. This class must extend the <code>Entity&lt;TState&gt;</code> abstract class, where <code>TState</code> is the interface created in step 1.</p>
+</li>
+<li>
+<p>Implement the public static <code>fragments</code> field. Here you can define entity related GraphQL fragments to use in GraphQL queries.</p>
+</li>
+</ol>
+<pre><code class="ts">public static fragments = {
+    EventFields: gql`
+      fragment EventFields on Event {
+        id
+        dao {
+          id
+        }
+        type
+        data
+        user
+        proposal {
+          id
+        }
+        timestamp
+      }
+    `
+  }
+</code></pre>
+
+<ol>
+<li>Implement the public static itemMap method. This method follows the following signature: </li>
+</ol>
+<pre><code class="ts">public static itemMap(context: Arc, item: any, queriedId?: string): IEntityState
+</code></pre>
+
+<p>The goal of this method is to map the item object received by a query to an object of its interface.</p>
+<p>It takes an optional <code>queriedId</code> parameter. This is the ID passed to the <code>where</code> clause of the GraphQL query. It is passed to have a meaningful error message, in case the query fails or does not yield any results.</p>
+<pre><code class="ts">public static itemMap(context: Arc, item: any, queriedId?: string): IEventState {
+  if (!item) {
+    throw Error(`Event ItemMap failed. ${queriedId ? `Could not find Event with id '${queriedId}'` : ''}`)
+  }
+
+  return {
+    dao: item.dao.id,
+    data: JSON.parse(item.data),
+    id: item.id,
+    proposal: item.proposal &amp;&amp; item.proposal.id,
+    timestamp: item.timestamp,
+    type: item.type,
+    user: item.user
+  }
+}
+</code></pre>
+
+<ol>
+<li>Implement the public static search method, which follows the signature:</li>
+</ol>
+<pre><code class="ts">public static search(
+  context: Arc,
+  options: IEventQueryOptions = {},
+  apolloQueryOptions: IApolloQueryOptions = {}
+): Observable&lt;Event[]&gt;
+</code></pre>
+
+<p>It typically builds a search query using the GraphQL fragments defined in step 4.</p>
+<p>This method must return a call to <code>context.getObservableList</code> and its return type should be casted to <code>Observable&lt;Entity&gt;</code>, where entity is the Entity class where this method is being defined.</p>
+<pre><code class="ts">public static search(
+  context: Arc,
+  options: IEventQueryOptions = {},
+  apolloQueryOptions: IApolloQueryOptions = {}
+): Observable&lt;Event[]&gt; {
+  const itemMap = (arc: Arc, item: any, queriedId?: string) =&gt; {
+    const state = Event.itemMap(arc, item, queriedId)
+    return new Event(arc, state)
+  }
+
+  const query = gql`query EventSearch {
+      events ${createGraphQlQuery(options)}
+      {
+        ...EventFields
+      }
+    }
+    ${Event.fragments.EventFields}
+  `
+
+  return context.getObservableList(context, query, itemMap, options.where?.id, apolloQueryOptions) as Observable&lt;Event[]&gt;
+}
+</code></pre>
+
+<ol>
+<li>Implement the public <code>state</code> method. This method queries the subgraph for the entity based on its ID, to retrieve its state. The method must return a <code>this.context.getObservableObject</code> call.</li>
+</ol>
+<pre><code class="ts">public state(apolloQueryOptions: IApolloQueryOptions = {}): Observable&lt;IEventState&gt; {
+  const query = gql`
+    query EventState {
+      event (id: &quot;${this.id}&quot;)
+      {
+        ...EventFields
+      }
+    }
+    ${Event.fragments.EventFields}
+  `
+
+  return this.context.getObservableObject(this.context, query, Event.itemMap, this.id, apolloQueryOptions)
+}
+</code></pre>
+
+<ol>
+<li>Export this class in the <code>./src/index.ts</code> file, using <code>export * from</code> syntax.</li>
+</ol>
+<p><strong>It is important to note all imports from this library must be imported from the ./src/index.ts file.</strong></p>
+<h2 id="adding-a-plugin">Adding a Plugin</h2>
+<p>Adding a plugin is similar to adding an entity, with the following differences:</p>
+<ol>
+<li>The interface that defines the Entity state must extend <code>IPluginState</code> interface. Typically it just adds the <code>pluginParams</code>field.</li>
+</ol>
+<pre><code class="ts">export interface IGenericPluginState extends IPluginState {
+  pluginParams: {
+    votingMachine: Address
+    contractToCall: Address
+    voteParams: IGenesisProtocolParams
+  }
+}
+</code></pre>
+
+<ol>
+<li>
+<p><code>Proposal</code> and <code>Plugin</code> abstract classes both have an <code>itemMapToBaseState</code> method that eases <code>itemMap</code> implementation and reduces code boilerplate.</p>
+</li>
+<li>
+<p>If the <code>Plugin</code> can create <code>Proposals</code>, then the added plugin must extend from abstract class <code>ProposalPlugin&lt;IPluginState, IProposalState, IProposalCreateOptions&gt;</code></p>
+</li>
+</ol>
+<p><code>IPluginState</code> is the interface defined in the previous step. <code>IProposalState</code> is the interface that defines the state of the proposal that can be created by the plugin. <code>IProposalCreateOptions</code> is the interface that defines the options passed to create a proposal using the plugin.</p>
+<p>If the <code>Plugin</code> cannot create <code>Proposals</code>, then it must extend from the <code>Plugin&lt;IPluginState&gt;</code> abstract class.</p>
+<ol>
+<li>If the plugin has fields that should be queried in the <code>Plugin</code>'s class baseFragment query, then it must define a public static <code>fragment</code> field which has the following signature:</li>
+</ol>
+<pre><code class="ts">public static fragment: { name: string, fragment: DocumentNode }
+</code></pre>
+
+<p><code>name</code> is the name of the GraphQL fragment. It must match the name used in the fragment definition. <code>fragment</code> is the actual GraphQL fragment.</p>
+<pre><code class="ts">public static fragment = {
+    name: 'GenericpluginParams',
+    fragment: gql`
+      fragment GenericpluginParams on ControllerScheme {
+        genericSchemeParams {
+          votingMachine
+          contractToCall
+          voteParams {
+            queuedVoteRequiredPercentage
+            queuedVotePeriodLimit
+            boostedVotePeriodLimit
+            preBoostedVotePeriodLimit
+            thresholdConst
+            limitExponentValue
+            quietEndingPeriod
+            proposingRepReward
+            votersReputationLossRatio
+            minimumDaoBounty
+            daoBountyConst
+            activationTime
+            voteOnBehalf
+          }
+        }
+      }
+    `
+  }
+</code></pre>
+
+<ol>
+<li>
+<p>The plugin class must be exported in the <code>./src/plugins/utils.ts</code> file. Including it in the already exported <code>Plugins</code> or <code>ProposalPlugins</code> object, mapped to its subgraph name.</p>
+</li>
+<li>
+<p>The <code>IProposalCreateOptions</code> interface must be included in the already exported <code>ProposalCreateOptions</code> type in the <code>./src/plugins/utils.ts</code> file.</p>
+</li>
+</ol>
+<h2 id="adding-a-proposal">Adding a Proposal</h2>
+<p>Adding a <code>Proposal</code> follows similar rules to adding a <code>Plugin</code>, noting that created <code>Proposal</code> classes must be exported in the same way plugins are.</p>
+<h2 id="testing">Testing</h2>
+<p>run a specific test:</p>
+<pre><code class="sh">npm run test -- test/arc.spec.ts
+</code></pre>
+
+<p>Or watch:</p>
+<pre><code class="sh">npm run test -- --watch
+</code></pre>
+
+<h3 id="commands">Commands</h3>
+<ul>
+<li><code>npm run build</code>: Generate bundles and typings, create docs</li>
+<li><code>npm run lint</code>: Lints code</li>
+<li><code>npm run test</code>: run all tests</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -124,6 +124,34 @@
                 <li class="toctree-l2"><a class="reference internal" href="../arcjs/">Arc.js</a>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" href="./">Alchemy</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#registering-the-plugins-name">Registering the plugin's name</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#creating-the-createproposal-form-component">Creating the CreateProposal form component</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-declaring-form-values">1. Declaring Form Values</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-creating-a-formmodalservice-instance">2. Creating a FormModalService instance</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3-initializing-the-state-object">3. Initializing the state object</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4-creating-the-forms-markup">4. Creating the form's markup</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#5-creating-the-handlesubmit-method">5. Creating the handleSubmit method</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#registering-the-form">Registering the Form</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#make-created-proposal-redeemable">Make created proposal redeemable</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#registering-the-plugin-in-the-plugin-manager">Registering the plugin in the Plugin Manager</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#create-the-proposal-summary-page">Create the Proposal Summary page</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#registering-the-proposal-summary-page">Registering the Proposal Summary Page</a>
+    </li>
+    </ul>
                 </li>
     </ul>
                     </li>
@@ -170,7 +198,618 @@
           <div role="main">
             <div class="section">
               
-                
+                <h1 id="registering-a-plugin-in-alchemy">Registering a Plugin in Alchemy</h1>
+<h2 id="registering-the-plugins-name">Registering the plugin's name</h2>
+<p>In the <code>pluginUtils.ts</code> file, typically under <code>src/lib</code>, there's a <code>PLUGIN_NAMES</code> object: </p>
+<pre><code class="ts">export const PLUGIN_NAMES = {
+  ContributionReward: &quot;Funding and Voting Power&quot;,
+  GenericScheme: &quot;Generic Plugin&quot;,
+  ReputationFromToken: &quot;Reputation from Token&quot;,
+  SchemeRegistrar: &quot;Plugin Registrar&quot;,
+  SchemeFactory: &quot;Plugin Manager&quot;,
+  Competition: &quot;Competition&quot;,
+  TokenTrade: &quot;Token Trade&quot;,
+  ContributionRewardExt: &quot;Contribution Reward Ext&quot;,
+  Join: &quot;Join&quot;,
+  FundingRequest: &quot;Funding Request&quot;,
+};
+</code></pre>
+
+<p>Add the new plugin to that object.</p>
+<h2 id="creating-the-createproposal-form-component">Creating the <code>CreateProposal</code> form component</h2>
+<p>Alchemy typically uses class based <code>React</code> components. And the naming convention is usually: </p>
+<p>Create + <code>Plugin Name</code> + Proposal. Example: <code>CreateContributionRewardProposal</code>.</p>
+<h3 id="1-declaring-form-values">1. Declaring Form Values</h3>
+<p>The first step is to declare an <code>IFormValues</code> interface that <strong>describes all of the Create Proposal form fields</strong>. This interface should always contain at least the following properties: </p>
+<pre><code class="ts">interface IFormValues {
+  description: string;
+  title: string;
+  url: string;
+  tags: Array&lt;string&gt;
+}
+</code></pre>
+
+<p>A full example of this interface can be found in the <code>CreateTokenTradeProposal</code> component:</p>
+<pre><code class="ts">interface IFormValues {
+  description: string;
+  title: string;
+  url: string;
+  tags: Array&lt;string&gt;;
+  sendTokenAddress: string,
+  sendTokenAmount: number,
+  receiveTokenAddress: string,
+  receiveTokenAmount: number,
+}
+</code></pre>
+
+<p>The next step is to create a function that returns an <code>IFormValues</code> object with the proper initial values of each field. Following the <code>CreateTokenTradeProposal</code>'s <code>IFormValues</code> example, its initializing function would be:</p>
+<pre><code class="ts">const setInitialFormValues = (): IFormValues =&gt; {
+  return Object.freeze({
+    description: &quot;&quot;,
+    title: &quot;&quot;,
+    url: &quot;&quot;,
+    tags: [],
+    sendTokenAddress: &quot;&quot;,
+    sendTokenAmount: 0,
+    receiveTokenAddress: &quot;&quot;,
+    receiveTokenAmount: 0,
+  });
+};
+</code></pre>
+
+<p>Lastly, declare a <code>currentFormValues</code> class property of type <code>IFormValues</code> in the <code>CreateProposal</code> component:</p>
+<pre><code class="ts">class CreateExamplePluginProposal extends React.Component&lt;IProps, IState&gt; {
+
+  currentFormValues: IFormValues;
+
+  constructor(props: IProps) {
+    super(props);
+
+    ...
+  }
+
+  ...
+}
+</code></pre>
+
+<h3 id="2-creating-a-formmodalservice-instance">2. Creating a <code>FormModalService</code> instance</h3>
+<p>Alchemy's <code>CreateProposal</code> form components make use of the <code>FormModalService</code>, which handles form state changes and notifications.</p>
+<p>To use it, an instance of it is typically declared as a class property and created in the constructor:</p>
+<pre><code class="ts">class CreateExamplePluginProposal extends React.Component&lt;IProps, IState&gt; {
+
+  formModalService: IFormModalService&lt;IFormValues&gt;;
+  currentFormValues: IFormValues;
+
+  constructor(props: IProps) {
+    super(props);
+
+    this.formModalService = CreateFormModalService(
+      &quot;CreateExamplePluginProposal&quot;,
+      setInitialFormValues(),
+      () =&gt; Object.assign(this.currentFormValues, this.state),
+      (formValues: IFormValues, firstTime: boolean) =&gt; {
+        this.currentFormValues = formValues;
+        if (firstTime) { this.state = { tags: formValues.tags }; }
+        else { this.setState({ tags: formValues.tags }); }
+      },
+      this.props.showNotification);
+  }
+</code></pre>
+
+<p>From the example above, you will notice the <code>CreateFormModalService</code> function takes 5 arguments:</p>
+<ul>
+<li><strong>formName</strong></li>
+<li><strong>defaultValues</strong></li>
+<li><strong>valuesToPersist</strong></li>
+<li><strong>updateCurrentValues</strong></li>
+<li><strong>showNotification</strong></li>
+</ul>
+<h3 id="3-initializing-the-state-object">3. Initializing the state object</h3>
+<p>Sometimes it is necessary to persist form-relevant values across re-renders, that are not directly form values. Like an array with all possible dropdown options. This is always the case with proposal tags. Therefore, they should always be initialized in the constructor like this:</p>
+<pre><code class="ts">
+class CreateTokenTradeProposal extends React.Component&lt;IProps, IState&gt; {
+
+  formModalService: IFormModalService&lt;IFormValues&gt;;
+  currentFormValues: IFormValues;
+
+  constructor(props: IProps) {
+    super(props);
+
+    this.state = { tags: [] };
+
+    this.formModalService = CreateFormModalService(
+      &quot;CreateExamplePluginProposal&quot;,
+      setInitialFormValues(),
+      () =&gt; Object.assign(this.currentFormValues, this.state),
+      (formValues: IFormValues, firstTime: boolean) =&gt; {
+        this.currentFormValues = formValues;
+        if (firstTime) { this.state = { tags: formValues.tags }; }
+        else { this.setState({ tags: formValues.tags }); }
+      },
+      this.props.showNotification);
+  }
+
+</code></pre>
+
+<h3 id="4-creating-the-forms-markup">4. Creating the form's markup</h3>
+<p>Inside the class Component's <code>render</code> function a <code>Formik</code> component should be declared. This component takes 4 arguments:</p>
+<ul>
+<li>
+<p><strong>initialValues</strong>: we will pass <code>this.currentFormValues</code> here.</p>
+</li>
+<li>
+<p><strong>validate</strong>: we will pass a <code>Formik</code> validation function here, like this one:</p>
+</li>
+</ul>
+<pre><code class="ts">(values: IFormValues) =&gt; {
+
+  this.currentFormValues = values;
+
+  const errors: any = {};
+
+  const require = (name: string) =&gt; {
+    if (!(values as any)[name]) {
+      errors[name] = &quot;Required&quot;;
+    }
+  };
+
+  require(&quot;description&quot;);
+  require(&quot;title&quot;);
+
+  if (values.title.length &gt; 120) {
+    errors.title = &quot;Title is too long (max 120 characters)&quot;;
+  }
+
+  if (!isValidUrl(values.url)) {
+    errors.url = &quot;Invalid URL&quot;;
+  }
+
+  return errors;
+}
+</code></pre>
+
+<ul>
+<li>
+<p><strong>onSubmit</strong>: we will pass the class's handleSubmit method (explained in detail in the following sections).</p>
+</li>
+<li>
+<p><strong>render</strong>: here is where the actual <code>CreateProposal</code> form's markup will live. Here we pass a functional component that has all form relevant props injected by <code>Formik</code> and will return the form's markup:</p>
+</li>
+</ul>
+<pre><code class="tsx">({
+  errors,
+  touched,
+  isSubmitting,
+  setFieldValue,
+  values,
+}: FormikProps&lt;IFormValues&gt;) =&gt; {
+  return (
+    &lt;Form noValidate&gt;
+      &lt;label className={css.description}&gt;What to Expect&lt;/label&gt;
+      &lt;div className={css.description}&gt;Propose to trade tokens with the DAO.&lt;/div&gt;
+      &lt;TrainingTooltip overlay={i18next.t(&quot;Title Tooltip&quot;)} placement=&quot;right&quot;&gt;
+        &lt;label htmlFor=&quot;titleInput&quot;&gt;
+          &lt;div className={css.requiredMarker}&gt;*&lt;/div&gt;
+          Title
+          &lt;ErrorMessage name=&quot;title&quot;&gt;{(msg) =&gt; &lt;span className={css.errorMessage}&gt;{msg}&lt;/span&gt;}&lt;/ErrorMessage&gt;
+        &lt;/label&gt;
+      &lt;/TrainingTooltip&gt;
+      &lt;Field
+        autoFocus
+        id=&quot;titleInput&quot;
+        maxLength={120}
+        placeholder={i18next.t(&quot;Title Placeholder&quot;)}
+        name=&quot;title&quot;
+        type=&quot;text&quot;
+        className={touched.title &amp;&amp; errors.title ? css.error : null}
+      /&gt;
+
+    ...
+    &lt;/Form&gt;
+  )}
+}
+
+</code></pre>
+
+<p>It is worth noting the following conventions to write the form's markup:</p>
+<ul>
+<li><code>i18next</code> should be used for all form labels, notifications and messages.</li>
+<li>There should be a <code>TrainingTooltip</code> component above each <code>Field</code> with a description relevant to said field.</li>
+<li>Styling is declared in a separate <code>Sass</code> file.</li>
+</ul>
+<h3 id="5-creating-the-handlesubmit-method">5. Creating the <code>handleSubmit</code> method</h3>
+<p>This method should be private and asynchronous. It, mainly, checks if the Wallet Provider is enabled, maps form values to an <code>Arc.js</code> proposalOptions object, awaits proposal creation through an <code>Arc.js</code> <code>createProposal</code> call, and tracks analytics on proposal submission.</p>
+<p>A full example of this is the <code>TokenTrade</code>'s <code>handleSubmit</code> method:</p>
+<pre><code class="ts">
+private handleSubmit = async (values: IFormValues, { setSubmitting }: any ): Promise&lt;void&gt; =&gt; {
+  if (!await enableWalletProvider({ showNotification: this.props.showNotification })) { return; }
+
+  const proposalOptions = {
+    dao: this.props.daoAvatarAddress,
+    description: values.description,
+    title: values.title,
+    tags: this.state.tags,
+    plugin: this.props.pluginState.address,
+    url: values.url,
+    sendTokenAddress: values.sendTokenAddress,
+    sendTokenAmount: values.sendTokenAmount,
+    receiveTokenAddress: values.receiveTokenAddress,
+    receiveTokenAmount: values.receiveTokenAmount,
+  };
+
+  setSubmitting(false);
+
+  await this.props.createProposal(proposalOptions);
+
+  Analytics.track(&quot;Submit Proposal&quot;, {
+    &quot;DAO Address&quot;: this.props.daoAvatarAddress,
+    &quot;Proposal Title&quot;: values.title,
+    &quot;Plugin Address&quot;: this.props.pluginState.address,
+    &quot;Plugin Name&quot;: this.props.pluginState.name,
+  });
+
+  this.props.handleClose();
+}
+
+</code></pre>
+
+<p>It is worth mentioning that <code>dao</code> address and <code>plugin</code> address options are taken from the component's props. More on this in the following sections.</p>
+<h2 id="registering-the-form">Registering the Form</h2>
+<p>For this component to be used it needs to be added to the <code>CreateProposalPage.tsx</code> file.</p>
+<p>Go to this file, typically under <code>src/components/Proposal/Create</code>. You will notice the <code>CreateProposalPage</code> component:</p>
+<pre><code class="tsx">class CreateProposalPage extends React.Component&lt;IProps, IStateProps&gt; {
+
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      createCrxProposalComponent: null,
+    };
+  }
+
+  ...
+
+  public render(): RenderOutput {
+    const { daoAvatarAddress, currentAccountAddress } = this.props;
+    const plugin = this.props.data;
+    const pluginState = plugin.coreState;
+
+    let createPluginComponent = &lt;div /&gt;;
+    const props = {
+      currentAccountAddress,
+      daoAvatarAddress,
+      handleClose: this.doClose,
+      plugin,
+    };
+    const pluginTitle = this.state.createCrxProposalComponent ? rewarderContractName(pluginState as IContributionRewardExtState) : pluginName(pluginState);
+
+    if (this.state.createCrxProposalComponent) {
+      createPluginComponent = &lt;this.state.createCrxProposalComponent {...props} /&gt;;
+    } else if (pluginState.name === &quot;ContributionReward&quot;) {
+      createPluginComponent = &lt;CreateContributionRewardProposal {...props} pluginState={pluginState as IContributionRewardState} /&gt;;
+    } else if (pluginState.name === &quot;SchemeRegistrar&quot;) {
+      createPluginComponent = &lt;CreatePluginRegistrarProposal {...props} pluginState={pluginState as IPluginRegistrarState} /&gt;;
+    } else if (pluginState.name === &quot;SchemeFactory&quot;) {
+      createPluginComponent = &lt;CreatePluginManagerProposal {...props} pluginState={pluginState as IPluginManagerState} /&gt;;
+    } else if (pluginState.name === &quot;TokenTrade&quot;) {
+      createPluginComponent = &lt;CreateTokenTradeProposal {...props} pluginState={pluginState as ITokenTradeState} /&gt;;
+    } else if (pluginState.name === &quot;GenericScheme&quot;) {
+      const contractToCall = (pluginState as IGenericPluginState).pluginParams.contractToCall;
+      if (!contractToCall) {
+        throw Error(&quot;No contractToCall for this genericPlugin was found!&quot;);
+      }
+      const genericPluginRegistry = new GenericPluginRegistry();
+      const genericPluginInfo = genericPluginRegistry.getPluginInfo(contractToCall);
+      if (genericPluginInfo) {
+        createPluginComponent = &lt;CreateKnownGenericPluginProposal {...props} genericPluginInfo={genericPluginInfo} pluginState={pluginState as IGenericPluginState} /&gt;;
+      } else {
+        createPluginComponent = &lt;CreateUnknownGenericPluginProposal {...props} pluginState={pluginState as IGenericPluginState} /&gt;;
+      }
+    }
+
+    ...
+  }
+}
+</code></pre>
+
+<p>Then on the <code>render</code> method of the <code>CreateProposalPage</code> declared there, add a condition to make the <code>createPluginComponent</code> variable be the <code>CreateProposalForm</code> you created in the previous section, if the pluginState's name matches the proposal's plugin. Your <code>CreateProposalForm</code> component in this method will take the <code>CreateProposalPage</code>'s deconstructed props: <code>{...props}</code> and a pluginState object which must be casted to an <code>Arc.js</code> Plugin State interface.</p>
+<h2 id="make-created-proposal-redeemable">Make created proposal redeemable</h2>
+<p>In order to make a proposal created through your <code>CreateProposalForm</code> redeemable, you must register it in the <code>arcActions</code> file. Typically under: <code>src/actions</code>, the file will contain a <code>tryRedeemProposal</code> function:</p>
+<pre><code class="ts">async function tryRedeemProposal(proposalId: string, accountAddress: string, observer: any) {
+  const arc = getArc();
+  const proposal = await Proposal.create(arc, proposalId);
+
+  switch (proposal.coreState.name) {
+    case &quot;GenericScheme&quot;:
+    case &quot;ContributionReward&quot;:
+    case &quot;Competition&quot;:
+    case &quot;ContributionRewardExt&quot;:
+    case &quot;SchemeRegistrarRemove&quot;:
+    case &quot;SchemeRegistrarAdd&quot;:
+    case &quot;SchemeRegistrar&quot;:
+    case &quot;SchemeFactory&quot;:
+      await (proposal as Proposal&lt;IProposalState&gt;).redeemRewards(
+        accountAddress
+      ).subscribe(...observer);
+      break;
+    case &quot;FundingRequest&quot;:
+      await (proposal as FundingRequestProposal).redeem().subscribe(...observer);
+      break;
+    case &quot;Join&quot;:
+      await (proposal as JoinProposal).redeem().subscribe(...observer);
+      break;
+    case &quot;TokenTrade&quot;:
+      await (proposal as TokenTradeProposal).redeem().subscribe(...observer);
+      break;
+    default:
+      break;
+  }
+
+  return Promise.resolve();
+}
+</code></pre>
+
+<p>There, add a case to the already existing <code>switch</code>, with the proposal's plugin name. Inside, cast the proposal object to the corresponding <code>Arc.js</code> Proposal Class, call redeem and subscribe on it and await it, just like in the example above.</p>
+<h2 id="registering-the-plugin-in-the-plugin-manager">Registering the plugin in the Plugin Manager</h2>
+<p>In the <code>PluginManager</code>'s <code>CreateProposal</code> form, the following additions are needed so that the new plugin can be created from a plugin manager proposal:</p>
+<ul>
+<li>In the plugin manager's <code>IFormValues</code> interface: </li>
+</ul>
+<pre><code class="ts">export interface IFormValues {
+  description: string;
+
+  currentTab: ITab;
+  tags: Array&lt;string&gt;;
+  title: string;
+  url: string;
+  pluginToRemove: string;
+  pluginToAdd: PluginNames | &quot;&quot;;
+  GenericScheme: {
+    permissions: IPermissions;
+    votingParams: IGenesisProtocolFormValues;
+    contractToCall: string;
+  };
+  ContributionReward: {
+    permissions: IPermissions;
+    votingParams: IGenesisProtocolFormValues;
+  };
+  Competition: {
+    permissions: IPermissions;
+    votingParams: IGenesisProtocolFormValues;
+  };
+
+  ...
+}
+</code></pre>
+
+<p>add the new plugin's initialize parameters.</p>
+<ul>
+<li>In the plugin manager's <code>defaultValues</code> object, declare the initial default values for the initialize parameters declared in the previous step:</li>
+</ul>
+<pre><code class="ts">const defaultValues: IFormValues = {
+  description: &quot;&quot;,
+  pluginToAdd: &quot;&quot;,
+  pluginToRemove: &quot;&quot;,
+  title: &quot;&quot;,
+  url: &quot;&quot;,
+  currentTab: &quot;addPlugin&quot;,
+  tags: [],
+  GenericScheme: {
+    votingParams: { ...votingParams },
+    permissions: {
+      registerPlugins: false,
+      changeConstraints: false,
+      upgradeController: false,
+      genericCall: true,
+    },
+    contractToCall: &quot;&quot;,
+  },
+  ContributionReward: {
+    votingParams: { ...votingParams },
+    permissions: {
+      registerPlugins: false,
+      changeConstraints: false,
+      upgradeController: false,
+      genericCall: false,
+    },
+  },
+
+  ...
+}
+</code></pre>
+
+<ul>
+<li>In the plugin manager's <code>handleSubmit</code> method, add a case to the already existing switch for creation and replacement proposals. The case added must populate the plugin's initialize parameters:</li>
+</ul>
+<pre><code class="ts">if (currentTab === &quot;addPlugin&quot; || currentTab === &quot;replacePlugin&quot;) {
+      (proposalOptions.add as any) = {
+        pluginName: values.pluginToAdd,
+      };
+
+      switch (proposalOptions.add.pluginName) {
+        case &quot;Competition&quot;:
+          proposalOptions.add.pluginInitParams = {
+            daoId: daoId,
+            votingMachine: votingMachine,
+            votingParams: gpFormValuesToVotingParams(values.Competition.votingParams),
+            voteOnBehalf: values.Competition.votingParams.voteOnBehalf,
+            voteParamsHash: values.Competition.votingParams.voteParamsHash,
+            daoFactory: arc.getContractInfoByName(&quot;DAOFactoryInstance&quot;, LATEST_ARC_VERSION).address,
+            packageVersion: packageVersion,
+            rewarderName: &quot;Competition&quot;,
+          };
+          break;
+        case &quot;ContributionReward&quot;:
+          proposalOptions.add.pluginInitParams = {
+            daoId: daoId,
+            votingMachine: votingMachine,
+            votingParams: gpFormValuesToVotingParams(values.ContributionReward.votingParams),
+            voteOnBehalf: values.ContributionReward.votingParams.voteOnBehalf,
+            voteParamsHash: values.ContributionReward.votingParams.voteParamsHash,
+          };
+          break;
+
+          ...
+      }
+
+    ...
+}
+</code></pre>
+
+<p>Additionally, so that the plugin manager's form can properly render the initialize parameters fields for the new plugin, go to the <code>PluginInitializeFields.ts</code> file, typically under <code>src/components/Proposal/Create</code>:</p>
+<pre><code class="tsx">
+...
+
+const TokenTrade = () =&gt; (
+  &lt;div&gt;
+    {GenesisProtocolFields(&quot;TokenTrade.votingParams&quot;)}
+  &lt;/div&gt;
+);
+
+const ReputationFromTokenFields = () =&gt; (
+  &lt;div&gt;
+    {fieldView(&quot;ReputationFromToken&quot;, &quot;Token Contract&quot;, &quot;tokenContract&quot;)}
+    {fieldView(&quot;ReputationFromToken&quot;, &quot;Curve Interface&quot;, &quot;curveInterface&quot;)}
+  &lt;/div&gt;
+);
+
+const fieldsMap = {
+  GenericScheme: GenericSchemeFields,
+  ContributionReward: ContributionRewardFields,
+  Competition: CompetitionFields,
+  ContributionRewardExt: ContributionRewardExtFields,
+  FundingRequest: FundingRequest,
+  Join: Join,
+  TokenTrade: TokenTrade,
+  SchemeRegistrar: SchemeRegistrarFields,
+  SchemeFactory: PluginManagerFields,
+  ReputationFromToken: ReputationFromTokenFields,
+};
+
+...
+
+</code></pre>
+
+<p>There, 2 additions are necessary:</p>
+<ul>
+<li>
+<p>Create a function that returns each initialize parameter field for the new plugin. This is done, using the <code>fieldView</code> function that takes 3 arguments: pluginName, initializeParameterName, fieldName. See the code snippet above.</p>
+</li>
+<li>
+<p>Add the created funcion to the <code>fieldsMap</code> object.</p>
+</li>
+</ul>
+<h2 id="create-the-proposal-summary-page">Create the Proposal Summary page</h2>
+<p>Each plugin should have its <code>ProposalSummary</code> page along with its <code>CreateProposal</code> form. This summary will contain the relevant proposal information that will be shown after the proposal has been created.</p>
+<p>It follows a simple class based Component pattern. For example, <code>TokenTrade</code>'s proposal summary looks like this:</p>
+<pre><code class="tsx">export default class ProposalSummaryTokenTrade extends React.Component&lt;IProps&gt; {
+
+  constructor(props: IProps) {
+    super(props);
+  }
+
+  public render(): RenderOutput {
+
+    const { beneficiaryProfile, proposalState, daoState, detailView, transactionModal } = this.props;
+
+    let receiveToken;
+    let sendToken;
+
+    if (proposalState.sendTokenAddress &amp;&amp; proposalState.sendTokenAmount) {
+      const tokenData = tokenDetails(proposalState.sendTokenAddress);
+      sendToken = formatTokens(toWei(Number(proposalState.sendTokenAmount)), tokenData ? tokenData[&quot;symbol&quot;] : &quot;?&quot;, tokenData ? tokenData[&quot;decimals&quot;] : 18);
+    }
+
+    if (proposalState.receiveTokenAddress &amp;&amp; proposalState.receiveTokenAmount) {
+      const tokenData = tokenDetails(proposalState.receiveTokenAddress);
+      receiveToken = formatTokens(toWei(Number(proposalState.receiveTokenAmount)), tokenData ? tokenData[&quot;symbol&quot;] : &quot;?&quot;, tokenData ? tokenData[&quot;decimals&quot;] : 18);
+    }
+
+    const proposalSummaryClass = classNames({
+      [css.detailView]: detailView,
+      [css.transactionModal]: transactionModal,
+      [css.proposalSummary]: true,
+    });
+    return (
+      &lt;div className={proposalSummaryClass}&gt;
+        &lt;span className={css.transferType}&gt;
+          { sendToken &amp;&amp;
+          &lt;div&gt;
+            &lt;div&gt;
+              &lt;span className={css.bold}&gt;{i18next.t(&quot;Send to DAO&quot;)}:&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;AccountPopup accountAddress={proposalState.beneficiary} daoState={daoState} width={12} /&gt;
+            &lt;span&gt;
+              &lt;AccountProfileName accountAddress={proposalState.beneficiary} accountProfile={beneficiaryProfile} daoAvatarAddress={daoState.address}/&gt;
+            &lt;/span&gt;
+            &lt;span className={css.transferAmount}&gt;&lt;/span&gt;
+            &lt;img className={css.transferIcon} src=&quot;/assets/images/Icon/Transfer.svg&quot; /&gt;
+            {receiveToken}
+          &lt;/div&gt;
+          }
+          { receiveToken &amp;&amp;
+          &lt;div&gt;
+            &lt;div&gt;
+              &lt;span className={css.bold}&gt;{i18next.t(&quot;Receive from DAO&quot;)}:&lt;/span&gt;
+            &lt;/div&gt;
+            {receiveToken}
+            &lt;span className={css.transferAmount}&gt;&lt;/span&gt;
+            &lt;img className={css.transferIcon} src=&quot;/assets/images/Icon/Transfer.svg&quot; /&gt;
+            &lt;AccountPopup accountAddress={proposalState.beneficiary} daoState={daoState} width={12} /&gt;
+            &lt;span&gt;
+              &lt;AccountProfileName accountAddress={proposalState.beneficiary} accountProfile={beneficiaryProfile} daoAvatarAddress={daoState.address}/&gt;
+            &lt;/span&gt;
+          &lt;/div&gt;
+          }
+        &lt;/span&gt;
+      &lt;/div&gt;
+    );
+
+  }
+}
+</code></pre>
+
+<p>It is worth noting:</p>
+<ul>
+<li>All labels and messages use <code>i18next</code></li>
+<li>Css is declared separately</li>
+<li>There are already handy components like <code>AccountPopup</code> and <code>AccountProfileName</code> to display Account information consistently.</li>
+</ul>
+<h2 id="registering-the-proposal-summary-page">Registering the Proposal Summary Page</h2>
+<p>In the <code>ProposalSummary.tsx</code> file, typically under <code>src/components/Proposal/ProposalSummary</code>:</p>
+<pre><code class="tsx">export default class ProposalSummary extends React.Component&lt;IProps, IState&gt; {
+
+  ...
+
+  public render(): RenderOutput {
+
+    if (!this.state) {
+      return null;
+    }
+
+    const { detailView, transactionModal } = this.props;
+    const { proposal } = this.state;
+
+    const proposalSummaryClass = classNames({
+      [css.detailView]: detailView,
+      [css.transactionModal]: transactionModal,
+      [css.proposalSummary]: true,
+    });
+
+    if (proposal.coreState.name === &quot;ContributionReward&quot;) {
+      const state = proposal.coreState as IContributionRewardProposalState;
+      return &lt;ProposalSummaryContributionReward {...this.props} proposalState={state} /&gt;;
+    } else if (proposal.coreState.name.includes(&quot;SchemeRegistrar&quot;)) {
+      const state = proposal.coreState as IPluginRegistrarProposalState;
+      return &lt;ProposalSummaryPluginRegistrar {...this.props} proposalState={state} /&gt;;
+    } else if (proposal.coreState.name.includes(&quot;TokenTrade&quot;)) {
+      const state = proposal.coreState as ITokenTradeProposalState;
+      return &lt;ProposalSummaryTokenTrade {...this.props} proposalState={state} /&gt;;
+    }
+    ...
+  }
+</code></pre>
+
+<p>Add a condition that will handle the case where the proposal's state name matches the new plugin's name. Inside this condition cast the <code>proposal.coreState</code> to the corresponding <code>Arc.js</code> ProposalState class. Then return the <code>ProposalSummary</code> component created on the previous section, and pass as props <code>{...this.props}</code> and a <code>proposalState</code> object which will be the casted <code>proposal.coreState</code>.</p>
               
             </div>
           </div>

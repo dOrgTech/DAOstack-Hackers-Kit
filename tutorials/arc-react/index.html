@@ -110,6 +110,8 @@
                     <li class="toctree-l1"><a class="reference internal" href="../create-a-dao/">Create your own DAO</a>
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Arc.react</a>
+    <ul class="current">
+    </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="#">Register a generic plugin</a>
     <ul>
@@ -166,7 +168,75 @@
           <div role="main">
             <div class="section">
               
-                
+                <h1 id="arcreact">Arc.react</h1>
+<p>Arc.react it's a react library that exposes arc.js functions and subgraph data in react components.</p>
+<p>Making it easier to develop on top of DAOstack, because it allows the developer to:</p>
+<ul>
+<li>Build DAOs faster, easier, and better: Enables easy react application deployment and integration, and significantly simplifies building of custom DAO UIs, interfaces, pages, and website native UI.</li>
+<li>Create a better flow for projects/DAOs looking to onboard streams of new users</li>
+<li>Take the DAOs where the audience already is, instead of forcing them to come to another app (i.e: Alchemy)</li>
+</ul>
+<p>Before going forward with how to use the library in your application, we recommend reading the <a href="https://github.com/dOrgTech/arc.react/blob/master/documentation/architecture.md">architecture</a> and <a href="https://github.com/dOrgTech/arc.react/blob/master/documentation/examples.md">examples</a> docs so you have a preview of how the library works.</p>
+<p>Also, as this tutorial go, you can check the <a href="https://github.com/dOrgTech/arc.react/blob/master/documentation/examples.md">api</a> documentation so you can see every component in depth.</p>
+<p>To add this library into your react app you need to install it first:</p>
+<blockquote>
+<p>npm i --save @daostack/arc.react</p>
+</blockquote>
+<p>As second step, you will need to connect Arc protocol to React with the <code>Arc</code> component. The <code>Arc</code> is similar to React's Context.Provider. It wraps your React app and places the client on the context, which enables you to access it from anywhere in your component tree.</p>
+<p>We suggest putting <code>Arc</code> somewhere high in your app, above any component from <code>arc.react</code> library, because, since it's the one that allows the app to connect to the Arc protocol, all components are dependent of it (If you are familiar with <code>@apollo/client</code> library, you can see it as if this is the <code>ApolloProvider</code> object, that wraps the entire application in it).</p>
+<p>You connect to the Arc protocol using and <code>ArcConfig</code> object like so (please check <a href="https://github.com/dOrgTech/arc.react/blob/master/documentation/api.md#protocol-connection">Protocol connection</a> to get more information about it):</p>
+<pre><code class="tsx">import { Arc, ArcConfig } from &quot;@daostack/arc.react&quot;;
+
+&lt;Arc config={new ArcConfig(&quot;rinkeby&quot;)}&gt;All other components go here&lt;/Arc&gt;;
+</code></pre>
+
+<p>And the last step to connecting your DAO into your app, you need to use the <code>DAO</code> component, passing the address of your DAO as a prop, like this:</p>
+<pre><code class="tsx">import { DAO } from &quot;@daostack/arc.react&quot;;
+
+&lt;DAO address=&quot;0xMY_DAO&quot;&gt;Your app&lt;/DAO&gt;;
+</code></pre>
+
+<p>Now you are ready to code your react app that interacts with Arc protocol! At the end the application should look like this:</p>
+<pre><code class="tsx">import { Arc, ArcConfig, DAO } from &quot;@daostack/arc.react&quot;;
+
+const App = () =&gt; {
+  const arcConfig = new ArcConfig(&quot;rinkeby&quot;);
+  return (
+    &lt;Arc config={arcConfig}&gt;
+      &lt;DAO address=&quot;0xMY_DAO&quot;&gt;Here goes your app!&lt;/DAO&gt;
+    &lt;/Arc&gt;
+  );
+};
+</code></pre>
+
+<p>Now you can see the members of your DAO:</p>
+<pre><code class="html">&lt;Members&gt;
+  &lt;Member.Data&gt;{(data: MemberData) =&gt; &lt;div&gt;{data.address}&lt;/div&gt;}&lt;/Member.Data&gt;
+&lt;/Members&gt;
+</code></pre>
+
+<p>And the proposals:</p>
+<pre><code class="tsx">&lt;Proposals&gt;
+  &lt;Proposal.Data&gt;
+  &lt;Proposal.Entity&gt;
+  {(data: ProposalData, entity: ProposalEntity) =&gt; (
+    &lt;div&gt;
+      &lt;h1&gt;{data.title}&lt;/h1&gt;
+      &lt;button onClick={() =&gt; entity.vote({...})}&gt;
+        Up Vote
+      &lt;/button&gt;
+      &lt;button onClick={() =&gt; entity.vote({...})}&gt;
+        Down Vote
+      &lt;/button&gt;
+    &lt;/div&gt;
+  )}
+  &lt;/Proposal.Entity&gt;
+  &lt;/Proposal.Data&gt;
+&lt;/Proposals&gt;
+</code></pre>
+
+<p>And any other entity within the <a href="https://github.com/dOrgTech/arc.react/tree/master/src/components">DAOstack protocol</a>!</p>
+<p>You can check the demo application built with <code>arc.react</code> on this repository: https://github.com/dOrgTech/arc.react-demo</p>
               
             </div>
           </div>
