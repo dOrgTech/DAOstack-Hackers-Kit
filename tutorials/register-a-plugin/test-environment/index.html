@@ -120,6 +120,16 @@
                 <li class="toctree-l2"><a class="reference internal" href="../migration/">Migration</a>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" href="./">Test environment</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#1-adding-the-plugin-information-to-a-test-dao">1. Adding the Plugin information to a test DAO</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-bumping-the-test-env-version">2. Bumping the test-env version</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-release-the-new-test-env-with-the-newly-registered-plugin">3. Release the new test-env with the newly registered plugin</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-using-the-new-test-env-in-alchemyarcjs">4. Using the new test-env in Alchemy/Arc.js</a>
+    </li>
+    </ul>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../arcjs/">Arc.js</a>
                 </li>
@@ -170,7 +180,99 @@
           <div role="main">
             <div class="section">
               
-                
+                <h1 id="registering-a-plugin-in-test-env">Registering a Plugin in Test-Env</h1>
+<h2 id="1-adding-the-plugin-information-to-a-test-dao">1. Adding the Plugin information to a test DAO</h2>
+<p>To test the registered plugin, it must be added to the test environment. The environment used to test Alchemy and Arc.js.</p>
+<p>In order to do that, first choose one of the DAOs for testing that already exist in the test-env repo, which are just JSON files with configuration parameters:</p>
+<p><img alt="Test Env Folders" src="../../../assets/images/test-env-folders.png" /></p>
+<p>For the sake of this example, we will use the <code>TestDAO</code>, to register the <code>TokenTrade</code> Plugin.</p>
+<p>The <code>"Schemes"</code> key of the <code>testdao-params.json</code> file contains an array. In this array add a new object with the following structure:</p>
+<ul>
+<li><strong>name</strong>: <code>string</code> with the plugin's name. In this case, it would be "TokenTrade".</li>
+<li><strong>alias</strong>: <code>string</code> with the plugin's alias. In this case, it would be "Token Trade".</li>
+<li><strong>permissions</strong>: <code>string</code> that represents the permissions hash for the plugin initialization. In this case it would be "0x00000000".</li>
+<li><strong>params</strong>: <code>array</code> that contains the initialize parameters to be passed to the <code>initialize</code> method of the plugin's contract. In this case it would be</li>
+</ul>
+<pre><code>[
+  &quot;GenesisProtocolAddress&quot;,
+  { &quot;voteParams&quot;: 0 }
+]
+</code></pre>
+
+<p>So the JSON file would look like this:</p>
+<pre><code class="json">{
+  &quot;orgName&quot;: &quot;DAO For Testing&quot;,
+  &quot;tokenName&quot;: &quot;DAO For Testing Token&quot;,
+  &quot;tokenSymbol&quot;: &quot;DxFT&quot;,
+  &quot;VotingMachinesParams&quot;: [...],
+  &quot;Schemes&quot;: [
+    {
+      &quot;name&quot;: &quot;ContributionReward&quot;,
+      &quot;alias&quot;: &quot;Funding And Voting Power&quot;,
+      &quot;permissions&quot;: &quot;0x00000000&quot;,
+      &quot;params&quot;: [
+        &quot;GenesisProtocolAddress&quot;,
+        { &quot;voteParams&quot;: 0 }
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;TokenTrade&quot;,
+      &quot;alias&quot;: &quot;Token Trade&quot;,
+      &quot;permissions&quot;: &quot;0x00000000&quot;,
+      &quot;params&quot;: [
+        &quot;GenesisProtocolAddress&quot;,
+        { &quot;voteParams&quot;: 0 }
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;SchemeRegistrar&quot;,
+      &quot;alias&quot; : &quot;Plugin Manager&quot;,
+      &quot;permissions&quot;: &quot;0x0000001F&quot;,
+      &quot;params&quot;: [
+        &quot;GenesisProtocolAddress&quot;,
+        { &quot;voteParams&quot;: 1 },
+        { &quot;voteParams&quot;: 1 }
+      ]
+    },
+
+    ...
+</code></pre>
+
+<h2 id="2-bumping-the-test-env-version">2. Bumping the test-env version</h2>
+<p>Next, go to the <code>package.json</code> file and change the package version:</p>
+<pre><code class="json">{
+  &quot;name&quot;: &quot;@daostack/test-env-experimental&quot;,
+  &quot;version&quot;: &quot;4.0.20&quot;,
+  &quot;description&quot;: &quot;Testing environment for DAOstack projects.&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  ...
+}
+</code></pre>
+
+<h2 id="3-release-the-new-test-env-with-the-newly-registered-plugin">3. Release the new test-env with the newly registered plugin</h2>
+<p>Run the <code>release.sh</code> script file, that exists at the repository's root folder. This will output some logs to the console and prompt for npm authentication to publish the new package.</p>
+<p>This script will release a new version of the 3 test-env docker images and a new version of the test-env npm package.</p>
+<h2 id="4-using-the-new-test-env-in-alchemyarcjs">4. Using the new test-env in Alchemy/Arc.js</h2>
+<p>In Alchemy/Arc.js codebase, change the test-env image versions in the <code>docker-compose.yml</code> file, so that they match the resulting version numbers from the previous step:</p>
+<pre><code class="yml">  ...
+
+  ipfs:
+    image: daostack/test-env-ipfs:3.0.38
+    ports:
+      - 5001:5001
+
+  postgres:
+    image: daostack/test-env-postgres:3.0.38
+    ports:
+      - 9432:5432
+    environment:
+      POSTGRES_PASSWORD: 'letmein'
+
+  ganache:
+    image: daostack/test-env-ganache:3.0.38
+    ports:
+      - 8545:8545
+</code></pre>
               
             </div>
           </div>

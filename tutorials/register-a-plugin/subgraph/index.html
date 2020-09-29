@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../../../img/favicon.ico">
-  <title>Arc - DAOstack Developer Portal</title>
+  <title>Add your plugin into daostack's subgraph - DAOstack Developer Portal</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../../css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Arc";
-    var mkdocs_page_input_path = "tutorials/register-a-plugin/arc.md";
+    var mkdocs_page_name = "Add your plugin into daostack's subgraph";
+    var mkdocs_page_input_path = "tutorials/register-a-plugin/subgraph.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -104,22 +104,18 @@
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Tutorials</span></p>
-                <ul class="current">
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../../test-environment/">Test environment</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../create-a-dao/">Create your own DAO</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../arc-react/">Arc.react</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Register a generic plugin</a>
-    <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="#">Register a generic plugin</a>
+    <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../intro/">Intro</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="./">Arc</a>
-    <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#writing-the-contracts">Writing the contracts</a>
-    </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="../arc/">Arc</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../migration/">Migration</a>
                 </li>
@@ -152,19 +148,11 @@
     <li><a href="../../..">Docs</a> &raquo;</li>
     
       
-        
-          <li>Register a generic plugin &raquo;</li>
-        
-      
-        
-          <li>Tutorials &raquo;</li>
-        
-      
     
-    <li>Arc</li>
+    <li>Add your plugin into daostack's subgraph</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/dOrgTech/DAOstack-Hackers-Kit/edit/master/docs/tutorials/register-a-plugin/arc.md"> Edit on dOrgTech/DAOstack-Hackers-Kit</a>
+        <a href="https://github.com/dOrgTech/DAOstack-Hackers-Kit/edit/master/docs/tutorials/register-a-plugin/subgraph.md"> Edit on dOrgTech/DAOstack-Hackers-Kit</a>
       
     </li>
   </ul>
@@ -174,123 +162,122 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="create-a-plugin-on-arc">Create a plugin on Arc</h1>
-<p>As we said before, plugins are the DAO's actions, and if you want your DAO (or any DAO) to have a new action you can do it.</p>
-<p>First of all, you will need to add your new plugin in Arc. This means that you will need to fork the <a href="https://github.com/daostack/arc">Arc repository</a>, write your custom plugin, and create a PR to the daostack's repository</p>
-<h2 id="writing-the-contracts">Writing the contracts</h2>
-<p>Let's use as example the <a href="https://github.com/daostack/arc/tree/master-2/contracts/schemes/TokenTrade.sol"><code>TrokenTrade</code></a> plugin, to show how you should add your custom plugin:</p>
-<p>You need to create it in the folder <a href="https://github.com/daostack/arc/tree/master/contracts/schemes">schemes</a>.</p>
-<p>Your contract will need to inherit from <code>VotingMachineCallBacks</code> and <code>ProposalExecuteInterface</code>, this will allow your new plugin to interact with the GenesisProtocol. Example with the <code>TokenTrade</code> plugin:</p>
-<pre><code>contract TokenTrade is VotingMachineCallbacks, ProposalExecuteInterface {
-  ...
+                <h1 id="add-your-plugin-into-daostacks-subgraph">Add your plugin into daostack's subgraph</h1>
+<p>Once your plugin contract has been written, we need to add it into the subgraph, this way we can store the data emitted from the events that has happened in your contract (i.e: A proposal has been created).</p>
+<p>First of all, you will need to create inside of the <code>src/mappings</code> directory a folder with your plugin name, then, you will need to create four files:</p>
+<ul>
+<li><code>src/mappings/</code> + Plugin Name + <code>/mapping.ts</code> - Definition of handlers when your new contract's plugin emit a new event.</li>
+<li><code>src/mappings/</code> + Plugin Name + <code>/schema.graphql</code> - GraphQL schema for that contract, normally here goes the Proposal schema.</li>
+<li><code>src/mappings/</code> + Plugin Name + <code>/datasource.yaml</code> - a yaml fragment with:<br />
+    a. <code>abis</code> - optional - list of contract names that are required by the mapping.<br />
+    b. <code>entities</code> - list of entities that are written by the the mapping.<br />
+    c. <code>eventHandlers</code> - map of solidity event signatures to event handlers in mapping code.</li>
+<li><code>test/integration/</code> + Plugin Name + <code>.spec.ts</code> - we will need to test our integration on the subgraph too</li>
+</ul>
+<p>You will need to add your plugin in <code>ops/mappings.json</code> in every network, like so:</p>
+<pre><code>{
+   &quot;name&quot;: &quot;plugin name as appears in `abis/arcVersion` folder&quot;,
+   &quot;contractName&quot;: &quot;plugin name as appears in migration.json file&quot;,
+   &quot;dao&quot;: &quot;section label where plugin is defined in migration.json file (base/dao/test/organs)&gt;&quot;,
+   &quot;mapping&quot;: &quot;plugin name&quot;,
+   &quot;arcVersion&quot;: &quot;plugin arc version&quot;
 }
 </code></pre>
 
-<p>In order to initialize the governance in the new plugin, you will need to initialize it, for that, you have to create an <code>initialize</code> method, like this:</p>
-<pre><code>function initialize(
-    Avatar _avatar,
-    IntVoteInterface _votingMachine,
-    uint256[11] calldata _votingParams,
-    address _voteOnBehalf,
-    bytes32 _voteParamsHash
-)
-external
-{
-    super._initializeGovernance(_avatar, _votingMachine, _voteParamsHash, _votingParams, _voteOnBehalf);
+<p>Now, you have to add the new Plugin proposals in the domain and the controller, the files are the following:</p>
+<ul>
+<li><code>src/mappings/Controller/datasource.yaml</code> - Add your plugin name in the <code>abis</code> section</li>
+<li><code>src/mappings/Controller/schema.graphql</code> - You will define your plugin parameters as an entity (a.k.a: the initializer parameters of your contract), and then add it into the entity <code>ControllerScheme</code></li>
+<li><code>src/mappings/Controller/mapping.ts</code> - Create a function that will save the parameters of initialization of the plugin once it has been created. You can check the example from <code>TokenTrade</code>:</li>
+</ul>
+<pre><code>export function setTokenTradeParams(
+  avatar: Address,
+  scheme: Address,
+  vmAddress: Address,
+  vmParamsHash: Bytes,
+): void {
+  setGPParams(vmAddress, vmParamsHash, avatar);
+  let controllerScheme =  ControllerScheme.load(
+    crypto.keccak256(concat(avatar, scheme)).toHex(),
+  );
+  let tokenTradeParams = new TokenTradeParam(scheme.toHex());
+  tokenTradeParams.votingMachine = vmAddress;
+  tokenTradeParams.voteParams = vmParamsHash.toHex();
+  tokenTradeParams.save();
+  if (controllerScheme != null) {
+    controllerScheme.tokenTradeParams = tokenTradeParams.id;
+    controllerScheme.save();
+  }
 }
 </code></pre>
 
-<p>As you can see, you must pass five parameters, which are:
-- _avatar: The avatar (DAO) this plugin referring to.
-- _votingMachine: The voting machine address
-- _votingParams: GenesisProtocol parameters - valid only if _voteParamsHash is zero
-- _voteOnBehalf: GenesisProtocol parameter - valid only if _voteParamsHash is zero
-- _voteParamsHash: Voting machine parameters.</p>
-<p>Beside of these parameters, you can pass as many as you want; in case you want to store any useful information in a contract's variable.</p>
-<p>Next, you will need to create a struct <code>Proposal</code>; this will allow you to store the information needed for the proposal (i.e: tokens to transfer/receive, REP to give, and any other use case you can imagine), note that this is the information the contract needs to have access to, things like title or description will be stored on IPFS (when we add our plugin at Subgraph level). Also, we will need a <code>proposals</code> mapping, to identify every proposal with a unique ID. Example with <code>TokenTrade</code> plugin:</p>
-<pre><code>struct Proposal {
-    address beneficiary;
-    IERC20 sendToken;
-    uint256 sendTokenAmount;
-    IERC20 receiveToken;
-    uint256 receiveTokenAmount;
-    bool passed;
-    bool decided;
-}
+<ul>
+<li><code>src/domain/gpqueue.ts</code> - Inside of the <code>create</code> function, you will to add a validation to check if the new plugin has been added, if true, it will bind the plugin with the new address and will set up the voting machine and parameters, an example is the following, with <code>TokenTrade</code>:</li>
+</ul>
+<pre><code>if (equalStrings(contractInfo.name, 'TokenTrade')) {
+let tokenTrade =  TokenTrade.bind(scheme);
+gpAddress = tokenTrade.votingMachine();
+let voteParams = tokenTrade.voteParamsHash();
 
-mapping(bytes32=&gt;Proposal) public proposals;
-</code></pre>
-
-<p>Create a <code>proposal${PLUGIN_NAME}</code>, (i.e: <code>proposalTokenTrade</code>). This function will create the proposal in the Voting Machine, by calling the <code>votingMachine.propose(2, ...)</code> function, the first argument of this function always needs to be 2 because it's the number of choices a proposal will have (Yes or No). Check the implementation of <code>TokenTrade</code>: </p>
-<pre><code>function proposeTokenTrade(
-    IERC20 _sendToken,
-    uint256 _sendTokenAmount,
-    IERC20 _receiveToken,
-    uint256 _receiveTokenAmount,
-    string memory _descriptionHash
-)
-public
-returns(bytes32 proposalId)
-{
-    require(
-        address(_sendToken) != address(0) &amp;&amp; address(_receiveToken) != address(0),
-        &quot;Token address must not be null&quot;
-    );
-    require(_sendTokenAmount &gt; 0 &amp;&amp; _receiveTokenAmount &gt; 0, &quot;Token amount must be greater than 0&quot;);
-
-    _sendToken.safeTransferFrom(msg.sender, address(this), _sendTokenAmount);
-    proposalId = votingMachine.propose(2, voteParamsHash, msg.sender, address(avatar));
-
-    proposals[proposalId] = Proposal({
-        beneficiary: msg.sender,
-        sendToken: _sendToken,
-        sendTokenAmount: _sendTokenAmount,
-        receiveToken: _receiveToken,
-        receiveTokenAmount: _receiveTokenAmount,
-        passed: false,
-        decided: false
-    });
-
-    proposalsBlockNumber[proposalId] = block.number;
-
-    emit TokenTradeProposed(
-        address(avatar),
-        proposalId,
-        _descriptionHash,
-        msg.sender,
-        _sendToken,
-        _sendTokenAmount,
-        _receiveToken,
-        _receiveTokenAmount
-    );
+if (!equalStrings(gpAddress.toHex(), addressZero)) {
+    setTokenTradeParams(dao, scheme, gpAddress, voteParams);
+    isGPQue = true;
 }
 </code></pre>
 
-<p>In order to execute the proposal once it has passed, you need to implement an <code>executeProposal</code> method like this:</p>
-<pre><code>function executeProposal(bytes32 _proposalId, int256 _decision)
-external
-onlyVotingMachine(_proposalId)
-override
-returns(bool) {
-    ...
+<ul>
+<li><code>src/domain/proposal.ts</code> - Here is where we are going to save our proposal. For that, you will create a function called <code>update</code> + initial of your plugin + <code>Proposal</code>, the parameters of this functions will be: <code>proposalId: Bytes, createdAt: BigInt, avatarAddress: Address, descriptionHash: string, schemeAddress: Address</code>. Check the <code>JoinAndQuit</code> update proposal function (Based on this example, the only line you will need to change is <code>proposal.joinAndQuit</code>, with the name of your plugin):</li>
+</ul>
+<pre><code>export function updateJQProposal(
+  proposalId: Bytes,
+  createdAt: BigInt,
+  avatarAddress: Address,
+  descriptionHash: string,
+  schemeAddress: Address,
+): void {
+  let proposal = getProposal(proposalId.toHex());
+  proposal.dao = avatarAddress.toHex();
+  proposal.joinAndQuit = proposalId.toHex();
+  proposal.createdAt = createdAt;
+  proposal.descriptionHash = descriptionHash;
+  proposal.scheme = crypto.keccak256(concat(avatarAddress, schemeAddress)).toHex();
+  getProposalIPFSData(proposal);
+
+  saveProposal(proposal);
 }
 </code></pre>
 
-<p>In this you will define what happens once the proposal has been approved or rejected, based on the <code>_decision</code> parameter.</p>
-<p>At last, you will need to implement tests for this contract.</p>
+<ul>
+<li><code>src/domain/index.ts</code> - You have to create a new function which is going to be called <code>handleNew</code> + Plugin name + <code>Proposal</code>, here you are going to call two functions, the first one is <code>update</code> + initial of your plugin + <code>Proposal</code> function that you previously created on last step and <code>handleGPProposalPrivate</code>. See the <code>handleNewTokenTradeProposal</code> method as example: </li>
+</ul>
+<pre><code>export function handleNewTokenTradeProposal(
+  avatar: Address,
+  proposalId: Bytes,
+  timestamp: BigInt,
+  descriptionHash: string,
+  eventAddress: Address,
+): void {
+  if (!daoModule.exists(avatar)) {
+    return;
+  }
+  updateTTProposal(
+    proposalId,
+    timestamp,
+    avatar,
+    descriptionHash,
+    eventAddress,
+  );
+  handleGPProposalPrivate(proposalId.toHex());
+}
+</code></pre>
+
+<ul>
+<li><code>src/domain/schema.graphql</code> - You will add your plugin proposal, i.e: <code>tokenTrade: TokenTradeProposal</code>, TokenTradeProposal has already been defined in the schema.graphql of your plugin</li>
+</ul>
               
             </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../migration/" class="btn btn-neutral float-right" title="Migration">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="../intro/" class="btn btn-neutral" title="Intro"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -314,10 +301,6 @@ returns(bool) {
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../intro/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../migration/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
