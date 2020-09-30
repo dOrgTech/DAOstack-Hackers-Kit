@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>Test environment - DAOstack Developer Portal</title>
+  <title>Register a generic plugin - DAOstack Developer Portal</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Test environment";
-    var mkdocs_page_input_path = "tutorials/test-environment.md";
+    var mkdocs_page_name = "Register a generic plugin";
+    var mkdocs_page_input_path = "tutorials/generic-plugin.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -105,13 +105,15 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Tutorials</span></p>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Test environment</a>
-                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../create-a-dao/">Create your own DAO</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../arc-react/">Arc.react</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="#">Register a generic plugin</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Register a generic plugin</a>
+    <ul class="current">
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Register a plugin in the stack</a>
     <ul>
                 <li class="toctree-l2"><a class="reference internal" href="../register-a-plugin/intro/">Intro</a>
                 </li>
@@ -155,10 +157,10 @@
         
       
     
-    <li>Test environment</li>
+    <li>Register a generic plugin</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/dOrgTech/DAOstack-Hackers-Kit/edit/master/docs/tutorials/test-environment.md"> Edit on dOrgTech/DAOstack-Hackers-Kit</a>
+        <a href="https://github.com/dOrgTech/DAOstack-Hackers-Kit/edit/master/docs/tutorials/generic-plugin.md"> Edit on dOrgTech/DAOstack-Hackers-Kit</a>
       
     </li>
   </ul>
@@ -168,7 +170,39 @@
           <div role="main">
             <div class="section">
               
-                
+                <h1 id="registering-a-generic-plugin">Registering a generic plugin</h1>
+<p>If you have a contract that is already deployed and would like it to interact with your DAO, creating a Generic Plugin is your solution!</p>
+<p>You just need to add your plugin via the Plugin Manager, this will create a new proposal and once it passes, it will allow you to interact with the contract through alchemy dApp:</p>
+<p float="center">
+  <img src="../../assets/examples/create-generic-plugin.gif"/>
+</p>
+
+<p>If the <code>contract to call</code> has not been added yet into alchemy (which means you selected custom and added an address), you will need to fork the <a href="https://github.com/daostack/alchemy">repository</a> in order to interact with your new plugin in a user friendly way!</p>
+<p>The steps are the following:</p>
+<p>1.- <strong>Add an interface of your contract to alchemy</strong>:</p>
+<p>You will need to create a <code>YOUR_CONTRACT_NAME.json</code> file in <code>/src/genericPluginRegistry/plugins/</code>. This file will contain three main fields:</p>
+<ul>
+<li><strong>name</strong>: The name of your contract</li>
+<li><strong>addresses</strong>: This will be an object in which you will add the address of the target contract (or the address you want your DAO to interact with!). Please check the example linked below to get a reference on how it should be.</li>
+<li><strong>actions</strong>: This is the way you customize your proposal form. Here, you add an array of the actions (functions) you want your DAO to be able to execute on the contract to call, it needs to have the following keys:<ul>
+<li><em>id</em>: The ID of the action in the dApp (Should be the name of the method in the contract)</li>
+<li><em>label</em>: The name of action that will appear in the dApp</li>
+<li><em>description</em>: Will tell your users what to expect from this action</li>
+<li><em>notes</em>: Url of the contract's code</li>
+<li><em>fields</em>: These are the arguments of the method the user will interact with when they create a proposal, it's an array, since you can add as many inputs as you desire. The fields will have three keys, which are:<ul>
+<li><em>label</em>: Description of the argument in the UI</li>
+<li><em>name</em>: Name of the argument in the contract</li>
+<li><em>placeholder</em>: A placeholder for the input, can be an example of what the user should enter</li>
+</ul>
+</li>
+<li><em>abi</em>: The ABI of the method of the contract</li>
+</ul>
+</li>
+</ul>
+<p>Check <a href="https://github.com/daostack/alchemy/src/genericPluginRegistry/plugins/CO2ken.json">this example</a> for more information!</p>
+<p>The last to do on this step is going to <code>/src/genericPluginRegistry/index.ts</code>, import your JSON and add it into the array of <code>KNOWNPLUGINS</code></p>
+<p>So far, you have created a good interface to allow your users to create new proposals in your generic scheme, now let's show this proposals in a good looking way</p>
+<p>2.- <strong>Create the view of proposal summary for your Generic plugin</strong>:</p>
               
             </div>
           </div>
@@ -176,10 +210,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../create-a-dao/" class="btn btn-neutral float-right" title="Create your own DAO">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../register-a-plugin/intro/" class="btn btn-neutral float-right" title="Intro">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../../plugins/token-trade/" class="btn btn-neutral" title="Token Trade"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../arc-react/" class="btn btn-neutral" title="Arc.react"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -205,10 +239,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../../plugins/token-trade/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../arc-react/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../create-a-dao/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../register-a-plugin/intro/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
