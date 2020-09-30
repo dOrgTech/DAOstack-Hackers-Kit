@@ -111,6 +111,8 @@
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Register a generic plugin</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#registering-the-proposal-summary-page">Registering the Proposal Summary Page</a>
+    </li>
     </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="#">Register a plugin in the stack</a>
@@ -203,6 +205,110 @@
 <p>The last to do on this step is going to <code>/src/genericPluginRegistry/index.ts</code>, import your JSON and add it into the array of <code>KNOWNPLUGINS</code></p>
 <p>So far, you have created a good interface to allow your users to create new proposals in your generic scheme, now let's show this proposals in a good looking way</p>
 <p>2.- <strong>Create the view of proposal summary for your Generic plugin</strong>:</p>
+<p>Each plugin should have its <code>ProposalSummary</code> page along with its <code>CreateProposal</code> form. This summary will contain the relevant proposal information that will be shown after the proposal has been created.</p>
+<p>It follows a simple class based Component pattern. For example, <code>NFTManager</code>'s proposal summary looks like this:</p>
+<pre><code class="tsx">export default class ProposalSummaryNFTManager extends React.Component&lt;IProps, null&gt; {
+
+  public render(): RenderOutput {
+
+    const { proposalState, detailView, genericPluginInfo, transactionModal } = this.props;
+    let decodedCallData: any;
+    let decodedParams: any;
+
+    try {
+      decodedCallData = genericPluginInfo.decodeCallData(proposalState.callData);
+      // Fix for previous functions' failure to decode parameters
+      const web3 = new Web3();
+      decodedParams = web3.eth.abi.decodeParameters([...decodedCallData.action.abi.inputs.map((input: { type: any }) =&gt; input.type)], &quot;0x&quot; + proposalState.callData.slice(2 + 8));
+      decodedCallData.values = decodedParams;
+    } catch (err) {
+      if (err.message.match(/no action matching/gi)) {
+        return &lt;div&gt;Error: {err.message} &lt;/div&gt;;
+      } else {
+        throw err;
+      }
+    }
+
+    const action = decodedCallData.action;
+    const proposalSummaryClass = classNames({
+      [css.detailView]: detailView,
+      [css.transactionModal]: transactionModal,
+      [css.proposalSummary]: true,
+      [css.withDetails]: true,
+    });
+
+    switch (action.id) {
+      case &quot;sendNFT&quot;:
+        return (
+          &lt;div className={proposalSummaryClass}&gt;
+            {!detailView &amp;&amp;
+              &lt;span className={css.summaryTitle}&gt;
+                &lt;strong&gt;Send NFT &lt;/strong&gt;
+                &lt;img className={css.iconPadding} src=&quot;/assets/images/Icon/Transfer.svg&quot; /&gt;
+                {decodedCallData.values[0]}
+              &lt;/span&gt;
+            }
+            {detailView &amp;&amp;
+              &lt;div className={css.summaryDetails}&gt;
+                &lt;div&gt;
+                  &lt;strong&gt;Send NFT &lt;/strong&gt;
+                  &lt;img className={css.iconPadding} src=&quot;/assets/images/Icon/Transfer.svg&quot; /&gt;
+                  &lt;a href={linkToEtherScan(decodedCallData.values[0])} target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;{decodedCallData.values[0]}&lt;/a&gt;
+                &lt;/div&gt;
+                &lt;br /&gt;
+                &lt;div&gt;
+                  &lt;strong&gt;NFT Contract:&lt;/strong&gt; &lt;a href={linkToEtherScan(decodedCallData.values[1])} target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;{decodedCallData.values[1]}&lt;/a&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;strong&gt;TokenID:&lt;/strong&gt; {decodedCallData.values[2]}
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;strong&gt;{i18next.t(&quot;Raw call data&quot;)}:&lt;/strong&gt;
+                  {truncateWithEllipses(proposalState.callData, 66)}&lt;CopyToClipboard value={proposalState.callData} /&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            }
+          &lt;/div&gt;
+        );
+      default:
+        return &quot;&quot;;
+    }
+  }
+}
+</code></pre>
+
+<p>Note that in the render there's a switch with the actions ids, this is the way to implement the views per action, also it is worth noting:</p>
+<ul>
+<li>All labels and messages use <code>i18next</code></li>
+<li>Css is declared separately</li>
+<li>There are already handy components like <code>AccountPopup</code> and <code>AccountProfileName</code> to display Account information consistently.</li>
+</ul>
+<h2 id="registering-the-proposal-summary-page">Registering the Proposal Summary Page</h2>
+<p>In the <code>ProposalSummaryKnownGenericPlugin.tsx</code> file, typically under <code>src/components/Proposal/ProposalSummary</code>:</p>
+<pre><code class="tsx">export default class ProposalSummary extends React.Component&lt;IProps, IState&gt; {
+
+  ...
+
+  public render(): RenderOutput {
+
+    ...
+
+    const { proposalState, detailView, transactionModal, genericPluginInfo } = this.props;
+    if (genericPluginInfo.specs.name === &quot;DutchX&quot;) {
+      return &lt;ProposalSummaryDutchX {...this.props} /&gt;;
+    } else if (genericPluginInfo.specs.name === &quot;Standard Bounties&quot;) {
+      return &lt;ProposalSummaryStandardBounties {...this.props} /&gt;;
+    } else if (genericPluginInfo.specs.name === &quot;CO2ken&quot;) {
+      return &lt;ProposalSummaryCO2ken {...this.props} /&gt;;
+    } else if (genericPluginInfo.specs.name === &quot;NFTManager&quot;) {
+      return &lt;ProposalSummaryNFTManager {...this.props} /&gt;;
+    }
+
+    ...
+  }
+</code></pre>
+
+<p>Add a condition that will handle the case where the proposal's state name matches the new plugin's name. Inside this condition cast the <code>genericPluginInfo.spec.name</code> to the name you gave to your Plugin in the JSON created in the first step. Then return the <code>ProposalSummary</code> component created on the previous section, and pass as props <code>{...this.props}</code> which will be the accessed in your new Proposal Summary component.</p>
               
             </div>
           </div>
