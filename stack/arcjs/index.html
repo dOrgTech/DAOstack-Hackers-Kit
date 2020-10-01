@@ -8,23 +8,23 @@
   
   
   
-  <link rel="shortcut icon" href="../../../img/favicon.ico">
-  <title>Developing - DAOstack Developer Portal</title>
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Arc.js - DAOstack Developer Portal</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../../../css/theme.css" />
-  <link rel="stylesheet" href="../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Developing";
-    var mkdocs_page_input_path = "stack/arcjs/development.md";
+    var mkdocs_page_name = "Arc.js";
+    var mkdocs_page_input_path = "stack/arcjs.md";
     var mkdocs_page_url = null;
   </script>
   
-  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
-  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
@@ -38,9 +38,9 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href="../../.." class="icon icon-home"> DAOstack Developer Portal</a>
+        <a href="../.." class="icon icon-home"> DAOstack Developer Portal</a>
         <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
@@ -48,84 +48,74 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../arc2-overview/">Arc 2.0</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../arc2-overview/">Arc 2.0</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Stack</span></p>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="#">Infra</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../infra/intro/">Intro</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../infra/holographic-consensus/">Holographic Consensus</a>
-                </li>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../infra/">Infra</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../arc/">Arc</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../subgraph/">Subgraph</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Arc.js</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#developing">Developing</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-an-entity">Adding an Entity</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-a-plugin">Adding a Plugin</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-a-proposal">Adding a Proposal</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#commands">Commands</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../arc/">Arc</a>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="#">Subgraph</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../subgraph/intro/">Intro</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../subgraph/queries/">GraphQL queries</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../subgraph/entities/">Entities</a>
-                </li>
-    </ul>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="#">Arc.js</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../intro/">Intro</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../intro/">Getting Started</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../intro/">How To Use</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../intro/">Query, Observables & Subscriptions</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../intro/">Quick Example</a>
-                </li>
-    </ul>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../alchemy/">Alchemy</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../alchemy/">Alchemy</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Plugins</span></p>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../plugins/nft-manager/">NFT Manager</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../plugins/nft-manager/">NFT Manager</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../plugins/funding-request/">Funding Request</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../plugins/funding-request/">Funding Request</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../plugins/token-trade/">Token Trade</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../plugins/token-trade/">Token Trade</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Tutorials</span></p>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/create-a-dao/">Create your own DAO</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../tutorials/create-a-dao/">Create your own DAO</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/arc-react/">Arc.react</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../tutorials/arc-react/">Arc.react</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/generic-plugin/">Register a generic plugin</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../../tutorials/generic-plugin/">Register a generic plugin</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="#">Register a plugin in the stack</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/intro/">Intro</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/intro/">Intro</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/arc/">Arc</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/arc/">Arc</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/subgraph/">Subgraph</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/subgraph/">Subgraph</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/migration/">Migration</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/migration/">Migration</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/test-environment/">Test environment</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/test-environment/">Test environment</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/arcjs/">Arc.js</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/arcjs/">Arc.js</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../../tutorials/register-a-plugin/alchemy/">Alchemy</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/alchemy/">Alchemy</a>
                 </li>
     </ul>
                     </li>
@@ -139,7 +129,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../..">DAOstack Developer Portal</a>
+        <a href="../..">DAOstack Developer Portal</a>
       </nav>
 
       
@@ -147,14 +137,18 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="../../..">Docs</a> &raquo;</li>
+    <li><a href="../..">Docs</a> &raquo;</li>
     
       
+        
+          <li>Stack &raquo;</li>
+        
+      
     
-    <li>Developing</li>
+    <li>Arc.js</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/dOrgTech/DAOstack-Hackers-Kit/edit/master/docs/stack/arcjs/development.md"> Edit on dOrgTech/DAOstack-Hackers-Kit</a>
+        <a href="https://github.com/dOrgTech/DAOstack-Hackers-Kit/edit/master/docs/stack/arcjs.md"> Edit on dOrgTech/DAOstack-Hackers-Kit</a>
       
     </li>
   </ul>
@@ -164,7 +158,14 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="developing">Developing</h1>
+                <h1 id="arcjs">Arc.js</h1>
+<p>Arc.js is a javascript library that provides a helpful set of tools to interact with the DAOstack ecosystem.</p>
+<p>In particular, the library provides an interface to</p>
+<ul>
+<li>DAOstack contracts</li>
+<li>DAOstack subgraph (an index of on-chain data).</li>
+</ul>
+<h2 id="developing">Developing</h2>
 <p>For development, it is useful to have local instances of Ganache (an ethereum node), IPFS (which is used to store data), an instance of The Graph with the DAOStack subgraph.
 The package is provided with convenient docker containers that provide  a  complete environment for testing and development:</p>
 <p>Get all services running:</p>
@@ -412,6 +413,15 @@ The package is provided with convenient docker containers that provide  a  compl
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../alchemy/" class="btn btn-neutral float-right" title="Alchemy">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../subgraph/" class="btn btn-neutral" title="Subgraph"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
@@ -434,12 +444,16 @@ The package is provided with convenient docker containers that provide  a  compl
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
+        <span><a href="../subgraph/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../alchemy/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
-    <script>var base_url = '../../..';</script>
-    <script src="../../../js/theme.js" defer></script>
-      <script src="../../../search/main.js" defer></script>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
     <script defer>
         window.onload = function () {
             SphinxRtdTheme.Navigation.enable(true);

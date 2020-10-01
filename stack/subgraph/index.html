@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Subgraph - DAOstack Developer Portal</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Subgraph";
+    var mkdocs_page_input_path = "stack/subgraph.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> DAOstack Developer Portal</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../arc2-overview/">Arc 2.0</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Stack</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../infra/">Infra</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../arc/">Arc</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Subgraph</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#general-guidelines">General Guidelines</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#query-for-single-entity">Query for single Entity</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#query-for-multiple-entities">Query for Multiple Entities</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#query-all">Query all</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#filter-by-fields">Filter by fields</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#filter-top-level-entity">Filter top level entity</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#filter-complex-subfield-array">Filter complex subfield array</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sort-by-field-values">Sort by field values</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#sort-top-level-entity">Sort top level entity</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#sort-complex-subfield-array">Sort complex subfield array</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#paginate">Paginate</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#from-the-beginning">From the beginning</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#from-the-middle">From the middle</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#combine-them-all">Combine them all ...</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../arcjs/">Arc.js</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../alchemy/">Alchemy</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Plugins</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../plugins/nft-manager/">NFT Manager</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../plugins/funding-request/">Funding Request</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../plugins/token-trade/">Token Trade</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Tutorials</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../tutorials/create-a-dao/">Create your own DAO</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../tutorials/arc-react/">Arc.react</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../tutorials/generic-plugin/">Register a generic plugin</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Register a plugin in the stack</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/intro/">Intro</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/arc/">Arc</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/subgraph/">Subgraph</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/migration/">Migration</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/test-environment/">Test environment</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/arcjs/">Arc.js</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tutorials/register-a-plugin/alchemy/">Alchemy</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">DAOstack Developer Portal</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Stack &raquo;</li>
+        
+      
+    
+    <li>Subgraph</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/dOrgTech/DAOstack-Hackers-Kit/edit/master/docs/stack/subgraph.md"> Edit on dOrgTech/DAOstack-Hackers-Kit</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="subgraph">Subgraph</h1>
+<p><strong><a href="https://github.com/daostack/subgraph">Subgraph</a> indexes the blockchain data and stores it in postgres database for easy and quick access.</strong> The subgraph runs on a Graph Node which is a server that developers can run local or remote. The data store can be queried by GraphQL endpoints. <a href="https://subgraph.daostack.io/">DAOstack subgraph</a> is based on graphprotocol, checkout <a href="https://thegraph.com/docs/quick-start">The Graph documentation</a> for more details. The Graph opens their server to others and you can find <a href="https://thegraph.com/explorer/subgraph/daostack/master">daostack subgraph</a> at Graph Explorer.</p>
+<p>You can use GraphQL queries to get quick info from <a href="https://thegraph.com/explorer/subgraph/daostack/master">DAOstack Subgraph</a> hosted on GraphExplorer.</p>
+<p>This guide explains how to use GraphQL queries to get single or multiple Entities and sort, filter and paginate them.</p>
+<p>The full list of <code>Subgraph Entities</code> cached by DAOstack subgraph can be found <a href="https://subgraph.daostack.io/">here</a></p>
+<h2 id="general-guidelines">General Guidelines</h2>
+<ol>
+<li>All queries must be wrapped inside <code>query {}</code> object.</li>
+<li>While querying, the Entity name is same as provided in <a href="https://subgraph.daostack.io/">the schema of the subgraph</a></li>
+<li>You can <a href="#query-for-single-entity">query for single entity</a> by providing Entity <code>id</code>.</li>
+<li>You can <a href="#query-for-multiple-entities">query for multiple Entities</a> by changing entity to plural. i.e. <code>proposal</code> -&gt; <code>proposals</code></li>
+<li>The <code>complex-field</code> i.e. fields that are themselves an Entity such as <em>dao</em> and <em>proposals</em> in <a href="#query-for-single-entity">below example</a>, need to be proceeded with <code>{}</code> and provided with the subfield needed to be queried</li>
+<li>While you can Filter/Sort/Paginate complex subfield (Entity) array, the Top level Entity itself cannot be Filtered/Sorted/Paginated by complex fields.</li>
+<li>If no pagination limit is provided, by default a limit of <em>100</em> entities is used. Maximum pagination limit is 1000</li>
+</ol>
+<h3 id="query-for-single-entity">Query for single Entity</h3>
+<p>When you query for single Entity with all/some fields, you need to provide the Entity id.</p>
+<p><em><strong>Examples</strong></em>
+Details of Genesis DAO <code>0x294f999356ed03347c7a23bcbcf8d33fa41dc830</code></p>
+<pre><code>query {
+  dao (id: &quot;0x294f999356ed03347c7a23bcbcf8d33fa41dc830&quot;) {
+    name
+    numberOfQueuedProposals
+    numberOfBoostedProposals
+    numberOfPreBoostedProposals
+    proposals{
+      title
+    }
+    reputationHoldersCount
+  }
+}
+</code></pre>
+
+<p>Details of Proposal <code>0x0025c38d987acba1f1d446d3690384327ebe06d15f1fa4171a4dc3467f8bd416</code></p>
+<pre><code>query {
+  proposal (id: &quot;0x0025c38d987acba1f1d446d3690384327ebe06d15f1fa4171a4dc3467f8bd416&quot;) {
+    proposer
+    createdAt
+    expiresInQueueAt
+    title
+    votesFor
+    votesAgainst
+    dao {
+      id
+      name
+    }
+  }
+}
+</code></pre>
+
+<h3 id="query-for-multiple-entities">Query for Multiple Entities</h3>
+<h4 id="query-all">Query all</h4>
+<p>Just change the entity name to plural to query for all the entities of that type</p>
+<p><em><strong>Examples</strong></em>
+Details of all <code>daos</code> indexed by the DAOstack subgraph</p>
+<pre><code>query {
+  daos {
+    name
+    id
+    reputationHoldersCount
+    proposals {
+      id
+      title
+    }
+  }
+}
+</code></pre>
+
+<p>Details of all <code>Reputation Holders</code> in DAOstack DAOs</p>
+<pre><code>query {
+  reputationHolders {
+    id
+    address
+    balance
+    dao {
+      name
+    }
+  }
+}
+</code></pre>
+
+<h3 id="filter-by-fields">Filter by fields</h3>
+<p>To query for a subset of Entities you can add <code>where: {}</code> parameter to filter for different properties. You can filter for single or multiple properties.</p>
+<h4 id="filter-top-level-entity">Filter top level entity</h4>
+<p><em><strong>Examples</strong></em></p>
+<p>To get all proposals submitted on 2019 Halloween, we can filter for the time interval on <code>createdAt</code> property</p>
+<pre><code>query {
+  proposals (
+    where: {
+      createdAt_gt: 1572480000,
+      createdAt_lt: 1572566400
+    }
+  ) {
+    id
+    title
+    dao {
+      name
+    }
+  }
+}
+</code></pre>
+
+<p>Get all <code>daos</code> with more than 200 reputation holders</p>
+<pre><code>query {
+  daos (
+    where: {
+      reputationHoldersCount_gt: 200
+  }) {
+    name
+    reputationHoldersCount
+  }
+}
+</code></pre>
+
+<p>Genesis DAO proposals that contains word 'Reputation' in titl</p>
+<pre><code>query {
+  proposals (
+    where: {
+      dao: &quot;0x294f999356ed03347c7a23bcbcf8d33fa41dc830&quot;
+      title_contains: &quot;Reputation&quot;
+    }
+  ){
+    title
+    dao {
+      name
+    }
+  }
+}
+</code></pre>
+
+<h4 id="filter-complex-subfield-array">Filter complex subfield array</h4>
+<p><em><strong>Examples</strong></em>
+Get rewards detail for all DAO where 250 GEN or more were awarded in DAO bounty</p>
+<pre><code>query {
+  daos {
+    name
+    rewards (
+      where: {
+        daoBountyForStaker_gte: &quot;250000000000000000000&quot;
+      }
+    ){
+      proposal {
+        id
+      }
+      daoBountyForStaker
+    }
+  }
+}
+</code></pre>
+
+<p>NOTE:</p>
+<ul>
+<li>The suffix <code>_contains</code> in the above example is used for the comparison</li>
+<li>Some suffixes are only supported for specific types. For example, Boolean only supports <code>_not</code>, <code>_in</code>, and <code>_not_in</code>.</li>
+<li><details>
+   Complete list of suffix is<ul>
+<li>_not</li>
+<li>_gt</li>
+<li>_lt</li>
+<li>_gte</li>
+<li>_lte</li>
+<li>_in</li>
+<li>_not_in</li>
+<li>_contains</li>
+<li>_not_contains</li>
+<li>_starts_with</li>
+<li>_ends_with</li>
+<li>_not_starts_with</li>
+<li>_not_ends_with
+  </details></li>
+</ul>
+</li>
+</ul>
+<h3 id="sort-by-field-values">Sort by field values</h3>
+<h4 id="sort-top-level-entity">Sort top level entity</h4>
+<p><em><strong>Examples</strong></em></p>
+<p>To query for a sorted list you can add <code>orderBy</code> parameter to sort by a specific property. Also, you can specify the direction of sort <code>asc</code> for ascending and <code>desc</code> for descending.
+Sort Reputation Holders by their reputation balanc</p>
+<pre><code>query {
+  reputationHolders (
+    orderBy: balance,
+    orderDirection: desc
+  ){
+    address
+    balance
+  }
+}
+</code></pre>
+
+<p>Sort DAOs by number of boosted proposals it has</p>
+<pre><code>query {
+  daos (
+    orderBy: numberOfBoostedProposals,
+    orderDirection: asc
+  ) {
+    name
+    numberOfBoostedProposals
+  }
+}
+</code></pre>
+
+<h4 id="sort-complex-subfield-array">Sort complex subfield array</h4>
+<p><em><strong>Examples</strong></em>
+Get all proposals from all the daos ordered by the date of submission</p>
+<pre><code>query {
+  daos {
+    proposals (
+      orderBy: createdAt,
+      orderDirection: desc
+    ){
+      title
+    }
+  }
+}
+</code></pre>
+
+<h4 id="paginate">Paginate</h4>
+<p>You can also decrease the size of set queried by specifying the pagination limit</p>
+<p><em><strong>Examples</strong></em></p>
+<h4 id="from-the-beginning">From the beginning</h4>
+<p>Get first 3 DAOs based on highest number of reputation holders</p>
+<pre><code>query {
+  daos (
+    first: 3
+    orderBy: reputationHoldersCount
+    orderDirection: desc
+  ) {
+    name
+    numberOfBoostedProposals
+  }
+}
+</code></pre>
+
+<h4 id="from-the-middle">From the middle</h4>
+<p>Get all DAOs except the first 5</p>
+<pre><code>query {
+  daos (
+    skip: 5
+    orderBy: reputationHoldersCount
+    orderDirection: desc
+  ) {
+    name
+    numberOfBoostedProposals
+  }
+}
+</code></pre>
+
+<p>Get the next 3 DAOs after the top 3</p>
+<pre><code>query {
+  daos (
+    skip: 3
+    first: 3
+    orderBy: reputationHoldersCount
+    orderDirection: desc
+  ) {
+    name
+    reputationHoldersCount
+  }
+}
+</code></pre>
+
+<p>NOTE: There is a limit of 1000 entities per query.</p>
+<h3 id="combine-them-all">Combine them all ...</h3>
+<p>You can combine the above parameters to create a more complex query</p>
+<p><em>Examples</em>
+Get top 6 boosted proposals that belong to either Genesis Alpha or DutchX</p>
+<pre><code class="gql">query {
+  proposals(
+    where: {
+      dao_in: [
+        &quot;0x294f999356ed03347c7a23bcbcf8d33fa41dc830&quot;
+        &quot;0x519b70055af55a007110b4ff99b0ea33071c720a&quot;
+      ]
+      stage: &quot;Boosted&quot;
+    }
+    orderBy: createdAt
+    orderDirection: asc
+    first: 6
+  ) {
+    title
+    dao {
+      name
+    }
+  }
+}
+</code></pre>
+
+<p>Get top 3 reputation holders from all DAOstack</p>
+<pre><code>query {
+  daos {
+    name
+    reputationHolders (
+      orderBy: balance
+      orderDirection: desc
+      first: 3
+    ){
+      address
+      balance
+    }
+  }
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../arcjs/" class="btn btn-neutral float-right" title="Arc.js">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../arc/" class="btn btn-neutral" title="Arc"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../arc/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../arcjs/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
